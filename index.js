@@ -1,21 +1,3 @@
-//Start
-// var express = require("express");
-// var app = express();
-// const PORT = process.env.PORT || 3000;
-// const { Todo } = require("./Todo");
-
-// const { postOneTodo } = require("./Todo");
-// app.post("/Todo", postOneTodo);
-
-// // exports.api = functions.https.onRequest(app);
-
-// app.get("/", (req, res) => {
-//   res.send("Todo API ");
-// });
-// app.listen(PORT, function () {
-//   console.log(`Todo api at: ${PORT}!`);
-// });
-
 "use strict";
 const express = require("express");
 const cors = require("cors");
