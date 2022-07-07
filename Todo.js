@@ -1,7 +1,7 @@
 const { db } = require("./firebaseConfig");
-
-exports.books = async (req, res) => {
-  const booksRef = db.collection("Books");
+console.log("here");
+const books = async (req, res) => {
+  const booksRef = db.collection("TodoList");
   try {
     booksRef.get().then((snapshot) => {
       const data = snapshot.docs.map((doc) => ({
@@ -18,3 +18,5 @@ exports.books = async (req, res) => {
   }
   console.log("here");
 };
+
+module.exports = books;

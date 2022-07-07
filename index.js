@@ -4,7 +4,7 @@ const PORT = process.env.PORT || 3000;
 const { Todo } = require("./Todo");
 
 app.get("/", (req, res) => {
-  res.send("This is my demo project");
+  res.send("Todo API ");
 });
 app.listen(PORT, function () {
   console.log(`Todo api at: ${PORT}!`);
