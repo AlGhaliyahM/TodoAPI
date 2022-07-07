@@ -17,16 +17,22 @@ admin.initializeApp({
 
 const db = admin.firestore();
 
-let dataRef = db.collection("TodoList");
+// let dataRef = db.collection("TodoAPI");
 
-dataRef.get().then((querySnapshot) => {
-  querySnapshot.forEach((document) => {
-    console.log(document.data());
-  });
-});
+// dataRef.get().then((querySnapshot) => {
+//   querySnapshot.forEach((document) => {
+//     console.log(document.id, "=>", document.data());
+//   });
+// });
 
-const data = {
-  task: " review API",
-};
+// const data = {
+//   1: " review API ",
+// };
 
-db.collection("TodoList").doc("1").set(data);
+// db.collection("TodoAPI").doc().set(data);
+// const firebase = require("firebase");
+// const config = require("./config");
+
+// const db = firebase.initializeApp(config.firebaseConfig);
+
+module.exports = db;
