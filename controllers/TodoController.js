@@ -2,6 +2,7 @@
 
 const firebase = require("../firebaseConfig");
 const todo = require("../models/Todo");
+const [taskList, setTaskList] = [];
 
 const addTask = async (req, res, next) => {
   try {
@@ -13,6 +14,23 @@ const addTask = async (req, res, next) => {
   }
 };
 
+const GetTasks = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const TodoRef = await firebase.collection("TodoAPI").doc(id);
+    const data = await TodoRef.get();
+    // console.log(data);
+    if (!data.exists) {
+      res.status(404).send("Task with the given ID not found");
+    } else {
+      res.send(data.data());
+    }
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
 module.exports = {
   addTask,
+  GetTasks,
 };
