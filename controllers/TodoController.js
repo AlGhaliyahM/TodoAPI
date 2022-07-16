@@ -2,7 +2,7 @@
 
 const firebase = require("../firebaseConfig");
 const todo = require("../models/Todo");
-const [taskList, setTaskList] = [];
+
 
 const addTask = async (req, res, next) => {
   try {
