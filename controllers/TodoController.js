@@ -1,8 +1,8 @@
 "use strict";
+// indicate that the code should be executed in "strict mode". an not, for example, use undeclared variables.
 
 const firebase = require("../firebaseConfig");
 const todo = require("../models/Todo");
-
 
 const addTask = async (req, res, next) => {
   try {
@@ -21,7 +21,7 @@ const GetTasks = async (req, res, next) => {
     const data = await TodoRef.get();
     // console.log(data);
     if (!data.exists) {
-      res.status(404).send("Task with the given ID not found");
+      res.status(404).send({ result: "Task with the given ID not found" });
     } else {
       res.send(data.data());
     }
