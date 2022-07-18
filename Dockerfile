@@ -1,6 +1,6 @@
-FROM node:12
+FROM node:14
 
-WORKDIR /the/workdir/path
+WORKDIR /usr/src/app
 
 
 COPY package*.json ./
@@ -12,7 +12,6 @@ COPY . .
 ENV PORT=3000
 
 EXPOSE 3000
-
 
 #EXC FORM 
 CMD ["npm", "start"]  
