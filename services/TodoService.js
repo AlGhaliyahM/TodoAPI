@@ -1,18 +1,35 @@
 "use strict";
 // indicate that the code should be executed in "strict mode". an not, for example, use undeclared variables.
 
-// Business Logic here.. 
+// Business Logic here..
 
 const firebase = require("../repositories/firebaseConfig");
-const todo = require("../models/Todo");
+const todo = require("../entities/Todo");
 
 const addTask = async (req, res, next) => {
   try {
-    const data = req.body;
-    await firebase.collection("TodoAPI").doc().set(data);
+    // const newTodoTaskTest = new Todo(
+    //   req.body.task,
+    //   false,
+    //   new Date().toISOString(),
+    //   "-"
+    // );
+    const newTodoTask = {
+      task: req.body.task,
+      is_done: false,
+      created_at: new Date().toISOString(),
+      updated_at: "-",
+    };
 
-    //TODO: Return JSON here. 
-    res.send("Todo task is added sucessfuly ");
+    //Adding to DB
+    await firebase
+      .collection("TodoAPI")
+      .add(newTodoTask)
+      .then((doc) => {
+        const responseTodoTask = newTodoTask;
+        responseTodoTask.id = doc.id;
+        return res.json(responseTodoTask);
+      });
   } catch (error) {
     res.status(400).send(error.message);
   }
