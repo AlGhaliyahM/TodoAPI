@@ -9,7 +9,7 @@ const firebaseConfig = {
 };
 
 var admin = require("firebase-admin");
-var serviceAccount = require("./todo-669d8-firebase-adminsdk-mhyl2-0b8264a321.json");
+var serviceAccount = require("./todo-669d8-firebase-adminsdk-mhyl2-928a3b9460.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
