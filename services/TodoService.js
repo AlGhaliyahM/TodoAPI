@@ -17,7 +17,7 @@ const addTask = async (req, res, next) => {
     const newTodoTask = {
       task: req.body.task,
       is_done: false,
-      created_at: new Date().toISOString().split("T")[0],
+      created_at: new Date().toISOString(),
       updated_at: "-",
     };
 
@@ -76,8 +76,44 @@ const getAllTasks = async (req, res, next) => {
   }
 };
 
+const deleteTask = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const TodoRef = await firebase.collection("TodoAPI").doc(id);
+
+    TodoRef.get()
+      .then((doc) => {
+        if (!doc.exists) {
+          return res.status(404).send({ result: "Task is not found" });
+        }
+        return TodoRef.delete();
+      })
+      .then(() => {
+        res.send({ result: "Task is deleted successfully" });
+      });
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
+const updateTask = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    let TodoRef = await firebase.collection("TodoAPI").doc(id);
+
+    TodoRef.update(req.body).then(() => {
+      res.json({ result: "Task is updated successfully" });
+    });
+    TodoRef.update({ updated_at: new Date().toISOString() });
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
 module.exports = {
   addTask,
   getTasks,
   getAllTasks,
+  deleteTask,
+  updateTask,
 };
