@@ -4,7 +4,7 @@
 // Business Logic here..
 
 const firebase = require("../repositories/firebaseConfig");
-const todo = require("../entities/Todo");
+const Todo = require("../entities/Todo");
 
 const addTask = async (req, res, next) => {
   try {
@@ -17,7 +17,7 @@ const addTask = async (req, res, next) => {
     const newTodoTask = {
       task: req.body.task,
       is_done: false,
-      created_at: new Date().toISOString(),
+      created_at: new Date().toISOString().split("T")[0],
       updated_at: "-",
     };
 
@@ -51,7 +51,33 @@ const getTasks = async (req, res, next) => {
   }
 };
 
+const getAllTasks = async (req, res, next) => {
+  try {
+    const TodoRef = await firebase.collection("TodoAPI");
+    const data = await TodoRef.get();
+
+    const allTasks = [];
+    if (data.empty) {
+      res.status(404).send({ result: "No Task is added" });
+    } else {
+      data.forEach((doc) => {
+        allTasks.push({
+          id: doc.id,
+          task: doc.data().task,
+          is_done: doc.data().is_done,
+          created_at: doc.data().created_at,
+          updated_at: doc.data().updated_at,
+        });
+      });
+      res.send(allTasks);
+    }
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
 module.exports = {
   addTask,
   getTasks,
+  getAllTasks,
 };
