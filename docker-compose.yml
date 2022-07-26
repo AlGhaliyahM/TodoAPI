@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  todo-api-db:
+    image: postgres:latest
+    ports:
+       - 5432:5432
+    environment: 
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: todo
+    # networks:
+    #   - wms 
+  test-db:
+    image: postgres:latest
+    ports:
+      - 5435:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: todo
+
+#networks?
+#  ports:
+#       - ${DATABASE_PORT}:5432
+# environment:
+#     POSTGRES_PASSWORD: ${DATABASE_PASS}
+#     POSTGRES_USER: ${DATABASE_USER}
+#     POSTGRES_DB: ${DATABASE_NAME}
+
+# todo-api-db container name 
