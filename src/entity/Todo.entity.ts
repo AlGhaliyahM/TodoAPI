@@ -1,3 +1,4 @@
+//Entity is a class that maps to a database table
 import {
   Entity,
   Column,
@@ -16,9 +17,9 @@ export class Todo {
   @CreateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
 
-  @Column()
+  @Column({ type: 'text' })
   task: string;
 
-  @Column()
+  @Column({ default: false })
   is_done: boolean;
 }
