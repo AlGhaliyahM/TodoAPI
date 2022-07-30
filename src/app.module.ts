@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { TodoModule } from './todo/todo.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-//import { ConfigModule } from '@nestjs/config';
 import { Todo } from './entity/Todo.entity';
-
+import { AppDataSource } from './data-source';
 @Module({
   imports: [
     TodoModule,
+
     //ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
       type: 'postgres',
@@ -17,8 +17,12 @@ import { Todo } from './entity/Todo.entity';
       entities: [Todo],
       database: 'todo',
       // url: process.env.DATABASE_URL,
-      // autoLoadEntities: true,
+      autoLoadEntities: true,
       synchronize: false,
+      migrations: [
+        /*...*/
+      ],
+      migrationsTableName: 'custom_migration_table',
     }),
   ],
 })
