@@ -1,25 +1,26 @@
 # Road Map
 
-### Alignment is the key. 
-Align who's handling with feature. 
+### Alignment is the key.
+
+Align who's handling with feature.
 
 ### Busniess Logic:
 
-- [] Create Todo task 
-- [] GetAll Todo
-- [] Get Todo By ID
-- [] Update Todo task >> (isdone? update date should be changed here)
-- [] Delete Todo
+- [AlGhaliyah] Create Todo task
+- [AlGhaliyah] GetAll Todo
+- [AlGhaliyah] Get Todo By ID
+- [Abdulaziz] Update Todo task >> (isdone? update date should be changed here)
+- [Abdulaziz] Delete Todo
 
-### Extras: 
+### Extras:
+
 - Sign Up
-- Log in 
+- Log in
 - Each user should be linked with Todo
-- JWT 
+- JWT
 - Dockarization
 
 ### Side Notes:
-- Use PostgreSQL 
+
+- Use PostgreSQL
 - Use TypeORM
-
-
