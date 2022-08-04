@@ -16,7 +16,7 @@ export class TodoService {
   async postTask(todo: Todo, res) {
     const task = await this.TodoRepository.save(todo);
     res.json(todo);
-    console.log(todo);
+    //console.log(todo);
   }
 
   async getTaskByID(ID, res) {
@@ -24,12 +24,13 @@ export class TodoService {
       id: ID,
     });
     res.json(task);
-    console.log(task);
+    // console.log(task);
   }
 
-  //There is a Problem
   async getAllTask(res) {
-    return this.TodoRepository.find({});
+    const AllTask = await this.TodoRepository.find();
+    res.json(AllTask);
+    //console.log(AllTask);
   }
 
   // DONE  But response is missing
@@ -41,7 +42,7 @@ export class TodoService {
     await this.TodoRepository.remove(taskToDelete);
   }
 
-  //Date need to be uodated + (isdone)
+  // (updatedAt) need to be updated here
   async updateTask(ID, todo: Todo) {
     const task = await this.TodoRepository.findOneBy({
       id: ID,

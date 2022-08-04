@@ -14,7 +14,6 @@ import { Request, Response } from 'express';
 import { AppDataSource } from '../data-source';
 import { Todo } from '../entity/Todo.entity';
 //Controller will cal the services as req from the client and the servive respond
-//Controller handle req
 
 @Controller('todo')
 export class TodoController {
@@ -35,9 +34,9 @@ export class TodoController {
     return this.todoService.getTaskByID(request.params.id, res);
   }
 
-  @Get('getAllTask')
+  @Get()
   getAllTask(@Res() res: Response) {
-    return this.todoService.getAllTask(res);
+    console.log(this.todoService.getAllTask(res));
   }
 
   @Put(':id')
