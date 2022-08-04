@@ -10,7 +10,7 @@ import {
   HttpCode,
 } from '@nestjs/common';
 import { TodoService } from './todo.service';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { AppDataSource } from '../data-source';
 import { Todo } from '../entity/Todo.entity';
 //Controller will cal the services as req from the client and the servive respond
@@ -21,8 +21,8 @@ export class TodoController {
   constructor(private todoService: TodoService) {}
 
   @Post('postTask')
-  async postTask(@Body() todo: Todo) {
-    return this.todoService.postTask(todo);
+  async postTask(@Body() todo: Todo, @Res() res: Response) {
+    return this.todoService.postTask(todo, res);
   }
 
   @Delete(':id')
@@ -31,13 +31,13 @@ export class TodoController {
   }
 
   @Get(':id')
-  getTaskByID(@Req() request: Request) {
-    return this.todoService.getTaskByID(request.params.id);
+  getTaskByID(@Req() request: Request, @Res() res: Response) {
+    return this.todoService.getTaskByID(request.params.id, res);
   }
 
   @Get('getAllTask')
-  getAllTask(@Req() request: Request) {
-    //  return this.todoService.getAllTask();
+  getAllTask(@Res() res: Response) {
+    return this.todoService.getAllTask(res);
   }
 
   @Put(':id')

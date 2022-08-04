@@ -13,22 +13,22 @@ export class TodoService {
     private TodoRepository: Repository<Todo>,
   ) {}
 
-  // DONE  But response is missing
-  async postTask(todo: Todo) {
+  async postTask(todo: Todo, res) {
     const task = await this.TodoRepository.save(todo);
-    // return task;
+    res.json(todo);
+    console.log(todo);
   }
 
-  // DONE  But response is missing
-  async getTaskByID(ID) {
+  async getTaskByID(ID, res) {
     const task = await this.TodoRepository.findOneBy({
       id: ID,
     });
+    res.json(task);
     console.log(task);
   }
 
   //There is a Problem
-  async getAllTask() {
+  async getAllTask(res) {
     return this.TodoRepository.find({});
   }
 
