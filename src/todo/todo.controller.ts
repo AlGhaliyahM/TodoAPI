@@ -25,8 +25,8 @@ export class TodoController {
   }
 
   @Delete(':id')
-  deleteTaskByID(@Req() request: Request) {
-    return this.todoService.deleteTaskByID(request.params.id);
+  deleteTaskByID(@Req() request: Request,@Res() res: Response) {
+    return this.todoService.deleteTaskByID(request.params.id,res);
   }
 
   @Get(':id')
@@ -40,7 +40,7 @@ export class TodoController {
   }
 
   @Put(':id')
-  updateTask(@Req() request: Request, @Body() todo: Todo) {
-    return this.todoService.updateTask(request.params.id, todo);
+  updateTask(@Req() request: Request, @Body() todo: Todo, @Res() res: Response) {
+    return this.todoService.updateTask(request.params.id,todo.is_done,res);
   }
 }
