@@ -33,24 +33,18 @@ export class TodoService {
     //console.log(AllTask);
   }
 
-  // DONE  But response is missing
-  async deleteTaskByID(ID) {
-    const taskToDelete = await this.TodoRepository.findOneBy({
-      id: ID,
-    });
-    console.log(taskToDelete);
+  // DONE returns the deleted task
+  async deleteTaskByID(ID,Res) {
+    const taskToDelete = await this.TodoRepository.findOneBy({id: ID,});
+    Res.json(taskToDelete);
     await this.TodoRepository.remove(taskToDelete);
   }
 
-  // (updatedAt) need to be updated here
-  async updateTask(ID, todo: Todo) {
-    const task = await this.TodoRepository.findOneBy({
-      id: ID,
-    });
-    console.log('before update');
-    console.log(task);
-    const updateTask = await this.TodoRepository.save(todo);
-    console.log('After update');
-    console.log(updateTask);
+  // DONE status and updatedAt are updated
+  async updateTask(ID, status,Res) {
+    await this.TodoRepository.update(ID,{is_done:status});
+    const updatedTask = await this.TodoRepository.findOneBy({id: ID,});
+    Res.json(updatedTask)
+    
   }
 }

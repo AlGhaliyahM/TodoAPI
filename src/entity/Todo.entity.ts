@@ -4,6 +4,7 @@ import {
   Column,
   PrimaryGeneratedColumn,
   CreateDateColumn,
+  UpdateDateColumn
 } from 'typeorm';
 
 @Entity()
@@ -13,8 +14,8 @@ export class Todo {
 
   @CreateDateColumn()
   created_at: Date;
-
-  @CreateDateColumn()
+// changed to @UpdateDateColumn to update automatically
+  @UpdateDateColumn()
   updatedAt: Date;
 
   @Column({ type: 'text' })
