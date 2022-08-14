@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { Todo } from './entity/Todo.entity';
+import { Todo } from './todo/todo.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 
@@ -17,8 +17,10 @@ export const AppDataSource = new DataSource({
   migrations: [],
 });
 
-AppDataSource.initialize()
-  .then(() => {
-    // here you can start to work with your database
-  })
-  .catch((error) => console.log(error));
+export const startDb = () => {
+  AppDataSource.initialize()
+    .then(() => {
+      // here you can start to work with your database
+    })
+    .catch((error) => console.log(error));
+};

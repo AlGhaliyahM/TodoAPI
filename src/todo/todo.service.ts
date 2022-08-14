@@ -1,7 +1,7 @@
 import { Injectable, Post, Get, Req, Res, Body, Delete } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Todo } from '../entity/Todo.entity';
+import { Todo } from './todo.entity';
 import { AppDataSource } from '../data-source';
 import { Request, Response } from 'express';
 //Business Logic
@@ -34,17 +34,16 @@ export class TodoService {
   }
 
   // DONE returns the deleted task
-  async deleteTaskByID(ID,Res) {
-    const taskToDelete = await this.TodoRepository.findOneBy({id: ID,});
+  async deleteTaskByID(ID, Res) {
+    const taskToDelete = await this.TodoRepository.findOneBy({ id: ID });
     Res.json(taskToDelete);
     await this.TodoRepository.remove(taskToDelete);
   }
 
   // DONE status and updatedAt are updated
-  async updateTask(ID, status,Res) {
-    await this.TodoRepository.update(ID,{is_done:status});
-    const updatedTask = await this.TodoRepository.findOneBy({id: ID,});
-    Res.json(updatedTask)
-    
+  async updateTask(ID, status, Res) {
+    await this.TodoRepository.update(ID, { is_done: status });
+    const updatedTask = await this.TodoRepository.findOneBy({ id: ID });
+    Res.json(updatedTask);
   }
 }
