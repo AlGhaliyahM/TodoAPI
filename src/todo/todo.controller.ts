@@ -17,34 +17,32 @@ import { Todo } from './todo.entity';
 
 @Controller('todo')
 export class TodoController {
-  constructor(private todoService: TodoService) {}
+  constructor(private todoService: TodoService) { }
 
   @Post()
-  async postTask(@Body() todo: Todo, @Res() res: Response) {
-    return this.todoService.postTask(todo, res);
+  async postTask(@Body() todo: Todo): Promise<Todo> {
+    const test = await this.todoService.postTask(todo);
+    return test;
   }
 
   @Delete(':id')
-  deleteTaskByID(@Req() request: Request, @Res() res: Response) {
-    return this.todoService.deleteTaskByID(request.params.id, res);
+  deleteTaskByID(@Req() request: Request,): Promise<Todo> {
+    return this.todoService.deleteTaskByID(request.params.id);
   }
 
   @Get(':id')
-  getTaskByID(@Req() request: Request, @Res() res: Response) {
-    return this.todoService.getTaskByID(request.params.id, res);
+  getTaskByID(@Req() request: Request): Promise<Todo> {
+    return this.todoService.getTaskByID(request.params.id);
   }
 
   @Get()
-  getAllTask(@Res() res: Response) {
-    console.log(this.todoService.getAllTask(res));
+  getAllTask(): Promise<Todo[]> {
+    const allTask = this.todoService.getAllTask();
+    return allTask;
   }
 
   @Put(':id')
-  updateTask(
-    @Req() request: Request,
-    @Body() todo: Todo,
-    @Res() res: Response,
-  ) {
-    return this.todoService.updateTask(request.params.id, todo.is_done, res);
+  updateTask(@Req() request: Request, @Body() todo: Todo): Promise<Todo> {
+    return this.todoService.updateTask(request.params.id, todo.is_done);
   }
 }

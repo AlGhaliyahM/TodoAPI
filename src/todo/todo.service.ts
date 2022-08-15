@@ -11,39 +11,39 @@ export class TodoService {
   constructor(
     @InjectRepository(Todo)
     private TodoRepository: Repository<Todo>,
-  ) {}
+  ) { }
 
-  async postTask(todo: Todo, res) {
-    const task = await this.TodoRepository.save(todo);
-    res.json(todo);
+  async postTask(todo: Todo) {
+    return await this.TodoRepository.save(todo);
     //console.log(todo);
   }
 
-  async getTaskByID(ID, res) {
+  async getTaskByID(ID) {
     const task = await this.TodoRepository.findOneBy({
       id: ID,
     });
-    res.json(task);
+    return task
+    //res.json(task);
     // console.log(task);
   }
 
-  async getAllTask(res) {
-    const AllTask = await this.TodoRepository.find();
-    res.json(AllTask);
-    //console.log(AllTask);
+  async getAllTask() {
+    return await this.TodoRepository.find();
   }
 
-  // DONE returns the deleted task
-  async deleteTaskByID(ID, Res) {
+ 
+  async deleteTaskByID(ID) {
     const taskToDelete = await this.TodoRepository.findOneBy({ id: ID });
-    Res.json(taskToDelete);
+    //Res.json(taskToDelete);
     await this.TodoRepository.remove(taskToDelete);
+    return taskToDelete
   }
 
   // DONE status and updatedAt are updated
-  async updateTask(ID, status, Res) {
+  async updateTask(ID, status) {
     await this.TodoRepository.update(ID, { is_done: status });
     const updatedTask = await this.TodoRepository.findOneBy({ id: ID });
-    Res.json(updatedTask);
+    //Res.json(updatedTask);
+    return updatedTask;
   }
 }
