@@ -8,6 +8,7 @@ import {
   Res,
   Put,
   HttpCode,
+  Param,
 } from '@nestjs/common';
 import { TodoService } from './todo.service';
 import { Request, Response } from 'express';
@@ -26,13 +27,13 @@ export class TodoController {
   }
 
   @Delete(':id')
-  deleteTaskByID(@Req() request: Request,): Promise<Todo> {
-    return this.todoService.deleteTaskByID(request.params.id);
+  deleteTaskByID(@Param() params): Promise<Todo> {
+    return this.todoService.deleteTaskByID(params.id);
   }
 
   @Get(':id')
-  getTaskByID(@Req() request: Request): Promise<Todo> {
-    return this.todoService.getTaskByID(request.params.id);
+  getTaskByID(@Param() params): Promise<Todo> {
+    return this.todoService.getTaskByID(params.id);
   }
 
   @Get()
@@ -42,7 +43,7 @@ export class TodoController {
   }
 
   @Put(':id')
-  updateTask(@Req() request: Request, @Body() todo: Todo): Promise<Todo> {
-    return this.todoService.updateTask(request.params.id, todo.is_done);
+  updateTask(@Param() params, @Body() todo: Todo): Promise<Todo> {
+    return this.todoService.updateTask(params.id, todo.is_done);
   }
 }
