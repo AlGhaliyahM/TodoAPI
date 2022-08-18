@@ -27,13 +27,13 @@ export class TodoController {
   }
 
   @Delete(':id')
-  deleteTaskByID(@Param() params): Promise<Todo> {
-    return this.todoService.deleteTaskByID(params.id);
+  deleteTaskByID(@Param('id') id: string): Promise<Todo> {
+    return this.todoService.deleteTaskByID(id);
   }
 
   @Get(':id')
-  getTaskByID(@Param() params): Promise<Todo> {
-    return this.todoService.getTaskByID(params.id);
+  getTaskByID(@Param('id') id: string ): Promise<Todo> {
+    return this.todoService.getTaskByID(id);
   }
 
   @Get()
@@ -43,7 +43,7 @@ export class TodoController {
   }
 
   @Put(':id')
-  updateTask(@Param() params, @Body() todo: Todo): Promise<Todo> {
-    return this.todoService.updateTask(params.id, todo.is_done);
+  updateTask(@Param('id') id: string, @Body() todo: Todo): Promise<Todo> {
+    return this.todoService.updateTask(id, todo.is_done);
   }
 }
