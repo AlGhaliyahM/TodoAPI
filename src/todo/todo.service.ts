@@ -11,7 +11,7 @@ export class TodoService {
   constructor(
     @InjectRepository(Todo)
     private TodoRepository: Repository<Todo>,
-  ) { }
+  ) {}
 
   async postTask(todo: Todo) {
     return await this.TodoRepository.save(todo);
@@ -22,7 +22,7 @@ export class TodoService {
     const task = await this.TodoRepository.findOneBy({
       id: ID,
     });
-    return task
+    return task;
     //res.json(task);
     // console.log(task);
   }
@@ -31,15 +31,13 @@ export class TodoService {
     return await this.TodoRepository.find();
   }
 
- 
   async deleteTaskByID(ID) {
     const taskToDelete = await this.TodoRepository.findOneBy({ id: ID });
     //Res.json(taskToDelete);
     await this.TodoRepository.remove(taskToDelete);
-    return taskToDelete
+    return taskToDelete;
   }
 
-  // DONE status and updatedAt are updated
   async updateTask(ID, status) {
     await this.TodoRepository.update(ID, { is_done: status });
     const updatedTask = await this.TodoRepository.findOneBy({ id: ID });

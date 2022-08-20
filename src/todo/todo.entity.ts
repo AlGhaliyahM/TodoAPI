@@ -5,7 +5,9 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
 } from 'typeorm';
+import { User } from '../user/user.entity';
 
 @Entity()
 export class Todo {
@@ -14,6 +16,7 @@ export class Todo {
 
   @CreateDateColumn()
   created_at: Date;
+
   // changed to @UpdateDateColumn to update automatically
   @UpdateDateColumn()
   updatedAt: Date;
@@ -23,4 +26,7 @@ export class Todo {
 
   @Column({ default: false })
   is_done: boolean;
+
+  @ManyToOne(() => User, (user) => user.todos)
+  user: User;
 }

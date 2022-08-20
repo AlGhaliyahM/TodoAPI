@@ -14,11 +14,10 @@ import { TodoService } from './todo.service';
 import { Request, Response } from 'express';
 import { AppDataSource } from '../data-source';
 import { Todo } from './todo.entity';
-//Controller will cal the services as req from the client and the servive respond
 
 @Controller('todo')
 export class TodoController {
-  constructor(private todoService: TodoService) { }
+  constructor(private todoService: TodoService) {}
 
   @Post()
   async postTask(@Body() todo: Todo): Promise<Todo> {
@@ -32,7 +31,7 @@ export class TodoController {
   }
 
   @Get(':id')
-  getTaskByID(@Param('id') id: string ): Promise<Todo> {
+  getTaskByID(@Param('id') id: string): Promise<Todo> {
     return this.todoService.getTaskByID(id);
   }
 
