@@ -10,21 +10,19 @@ import {
   HttpCode,
   Param,
 } from '@nestjs/common';
-
-import { Request, Response } from 'express';
+//import { Request, Response } from 'express';
 import { User } from './user.entity';
 import { UsersService } from './user.service';
-
-import jwt from 'jsonwebtoken';
+//import jwt from 'jsonwebtoken';
 
 @Controller('user')
 export class UserController {
   constructor(private usersService: UsersService) {}
 
-  //   @Post('signin')
-  //   async signIn() {
-  //     return this.usersService.signIn();
-  //   }
+  @Post('signin')
+  async signIn(@Body() user: User): Promise<User> {
+    return this.usersService.signIn(user);
+  }
 
   @Post('signup')
   async signUp(@Body() user: User): Promise<User> {
