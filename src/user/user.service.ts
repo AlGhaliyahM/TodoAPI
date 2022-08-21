@@ -8,14 +8,12 @@ import { HttpException, HttpStatus } from '@nestjs/common';
 import * as argon2 from 'argon2';
 require('dotenv').config();
 
-@Injectable(
-)
+@Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
   ) {}
-
 
   async signIn(user: User) {
     //check if email exists
@@ -37,6 +35,7 @@ export class UsersService {
 
     //generate a JWT
     // here we will request the auth controller to generate a JWT
+    //kjfhaf
     return user;
   }
 
