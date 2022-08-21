@@ -5,7 +5,7 @@ import { User } from './user.entity';
 import { Request, Response } from 'express';
 import { HttpException, HttpStatus } from '@nestjs/common';
 //import jwt from 'jsonwebtoken';
-import * as argon2 from 'argon2';
+//import * as argon2 from 'argon2';
 require('dotenv').config();
 
 @Injectable()
@@ -16,6 +16,7 @@ export class UsersService {
   ) {}
 
   async signIn(user: User) {
+    const argon2 = require('argon2');
     //check if email exists
     const potUser = await this.usersRepository.findOneBy({
       email: user.email,
@@ -25,33 +26,32 @@ export class UsersService {
         { status: HttpStatus.BAD_REQUEST, error: 'email not found' },
         HttpStatus.BAD_REQUEST,
       );
-
+    console.log('email');
     //check if hashed pass is correct using verify
     if (!(await argon2.verify(potUser.password, user.password)))
       throw new HttpException(
         { status: HttpStatus.BAD_REQUEST, error: 'password not correct' },
         HttpStatus.BAD_REQUEST,
       );
+    console.log('pass');
+    console.log(potUser.id);
 
-    //generate a JWT
-    // here we will request the auth controller to generate a JWT
-    //kjfhaf
-    return user;
+    const accessToken = this.generateAccessToken({ id: potUser.id });
+
+    return { accessToken: accessToken };
   }
 
   async signUp(user: User) {
-    console.log(user); // for checking that the sign in works
+    const argon2 = require('argon2');
     const hash = await argon2.hash(user.password);
 
-    this.usersRepository.save({
+    const userTest = await this.usersRepository.save({
       name: user.name,
       password: hash,
       email: user.email,
     });
-
-    const accessToken = this.generateAccessToken({ name: user.name });
-
-    return { accessToken: accessToken };
+    console.log(userTest); // for checking that the sign in works
+    return this.signIn(user);
   }
 
   generateAccessToken(user) {

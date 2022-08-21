@@ -20,7 +20,7 @@ export class UserController {
   constructor(private usersService: UsersService) {}
 
   @Post('signin')
-  async signIn(@Body() user: User): Promise<User> {
+  async signIn(@Body() user: User) {
     return this.usersService.signIn(user);
   }
 
