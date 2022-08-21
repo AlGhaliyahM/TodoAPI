@@ -15,8 +15,6 @@ import { Request, Response } from 'express';
 import { User } from './user.entity';
 import { UsersService } from './user.service';
 
-import jwt from 'jsonwebtoken';
-
 @Controller('user')
 export class UserController {
   constructor(private usersService: UsersService) {}
@@ -27,8 +25,7 @@ export class UserController {
   //   }
 
   @Post('signup')
-  async signUp(@Body() user: User): Promise<User> {
-    const test = await this.usersService.signUp(user);
-    return test;
+  async signUp(@Body() user: User) {
+    return await this.usersService.signUp(user);
   }
 }

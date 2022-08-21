@@ -3,8 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import { Request, Response } from 'express';
-import jwt from 'jsonwebtoken';
-
+//import jwt from 'jsonwebtoken';
+require('dotenv').config();
 @Injectable()
 export class UsersService {
   constructor(
@@ -12,17 +12,26 @@ export class UsersService {
     private usersRepository: Repository<User>,
   ) {}
 
-  //   async signIn() {}
-
   async signUp(user: User) {
     const argon2 = require('argon2');
-
     const hash = await argon2.hash(user.password);
 
-    return await this.usersRepository.save({
+    this.usersRepository.save({
       name: user.name,
       password: hash,
       email: user.email,
+    });
+
+    const accessToken = this.generateAccessToken({ name: user.name });
+
+    return { accessToken: accessToken };
+  }
+
+  generateAccessToken(user) {
+    var jwt = require('jsonwebtoken');
+
+    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+      expiresIn: '15s',
     });
   }
 }
