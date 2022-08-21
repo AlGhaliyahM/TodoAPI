@@ -6,13 +6,16 @@ import { Request, Response } from 'express';
 import { HttpException, HttpStatus } from '@nestjs/common';
 //import jwt from 'jsonwebtoken';
 import * as argon2 from 'argon2';
+require('dotenv').config();
 
-@Injectable()
+@Injectable(
+)
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
   ) {}
+
 
   async signIn(user: User) {
     //check if email exists
@@ -41,10 +44,22 @@ export class UsersService {
     console.log(user); // for checking that the sign in works
     const hash = await argon2.hash(user.password);
 
-    return await this.usersRepository.save({
+    this.usersRepository.save({
       name: user.name,
       password: hash,
       email: user.email,
+    });
+
+    const accessToken = this.generateAccessToken({ name: user.name });
+
+    return { accessToken: accessToken };
+  }
+
+  generateAccessToken(user) {
+    var jwt = require('jsonwebtoken');
+
+    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+      expiresIn: '15s',
     });
   }
 }
