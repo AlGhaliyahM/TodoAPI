@@ -2,14 +2,11 @@ import { Injectable, Post, Get, Req, Res, Body, Delete } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
-import { Request, Response } from 'express';
 import { HttpException, HttpStatus } from '@nestjs/common';
-//import jwt from 'jsonwebtoken';
-//import * as argon2 from 'argon2';
 require('dotenv').config();
 
 @Injectable()
-export class UsersService {
+export class UserService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
@@ -35,10 +32,8 @@ export class UsersService {
       );
     console.log('pass');
     console.log(potUser.id);
-
-    const accessToken = this.generateAccessToken({ id: potUser.id });
-
-    return { accessToken: accessToken };
+    //const accessToken = this.generateAccessToken({ id: potUser.id });
+    //return { accessToken: accessToken };
   }
 
   async signUp(user: User) {
@@ -51,14 +46,17 @@ export class UsersService {
       email: user.email,
     });
     console.log(userTest); // for checking that the sign in works
-    return this.signIn(user);
   }
 
-  generateAccessToken(user) {
+  async findUser(Email: string): Promise<User | undefined> {
+    return this.usersRepository.findOneBy({ email: Email });
+  }
+  async generateAccessToken(posUser: User) {
+    const user = await this.findUser(posUser.email);
+    const payload = { id: user.id, email: user.email, name: user.name };
     var jwt = require('jsonwebtoken');
-
-    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
-      expiresIn: '15s',
+    return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+      expiresIn: '30m',
     });
   }
 }

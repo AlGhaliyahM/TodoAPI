@@ -1,31 +1,24 @@
-import {
-  Controller,
-  Post,
-  Get,
-  Req,
-  Body,
-  Delete,
-  Res,
-  Put,
-  HttpCode,
-  Param,
-} from '@nestjs/common';
-//import { Request, Response } from 'express';
+import { Controller, Post, Body, Request, UseGuards } from '@nestjs/common';
 import { User } from './user.entity';
-import { UsersService } from './user.service';
-//import jwt from 'jsonwebtoken';
+import { UserService } from './user.service';
+import { AuthGuard } from '@nestjs/passport';
+import { AuthStrategy } from '../auth/auth/auth.strategy';
 
 @Controller('user')
 export class UserController {
-  constructor(private usersService: UsersService) {}
+  constructor(private userService: UserService) {}
 
-  @Post('signin')
-  async signIn(@Body() user: User) {
-    return this.usersService.signIn(user);
+  @UseGuards(AuthGuard('jwt'))
+  @Post('login')
+  async login(@Body() user: User) {
+    //want to generate token here
+    return this.userService.generateAccessToken(user);
   }
 
   @Post('signup')
   async signUp(@Body() user: User) {
-    return await this.usersService.signUp(user);
+    await this.userService.signUp(user);
+    console.log('signup is done');
+    return this.login(user);
   }
 }
