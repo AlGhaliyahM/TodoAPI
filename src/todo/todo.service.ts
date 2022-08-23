@@ -2,8 +2,6 @@ import { Injectable, Post, Get, Req, Res, Body, Delete } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Todo } from './todo.entity';
-import { AppDataSource } from '../data-source';
-import { Request, Response } from 'express';
 //Business Logic
 
 @Injectable({})
