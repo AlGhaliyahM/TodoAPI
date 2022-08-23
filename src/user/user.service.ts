@@ -6,7 +6,6 @@ import { HttpException, HttpStatus } from '@nestjs/common';
 import * as argon2 from 'argon2';
 //import { JwtService } from '@nestjs/jwt';
 
-
 @Injectable()
 export class UserService {
   constructor(
