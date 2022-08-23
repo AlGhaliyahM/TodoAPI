@@ -11,10 +11,12 @@ import {
 import { TodoService } from './todo.service';
 import { Todo } from './todo.entity';
 import { JwtAuthGuard } from '../auth/auth/jwt-auth.guard';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('todo')
 export class TodoController {
   constructor(private todoService: TodoService) {}
+
   @UseGuards(JwtAuthGuard)
   @Post()
   async postTask(@Body() todo: Todo): Promise<Todo> {

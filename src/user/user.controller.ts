@@ -17,8 +17,6 @@ export class UserController {
     @Body('email') Email: string,
     @Body('password') Password: string,
   ) {
-    //want to generate token here
-    console.log('login in is happening');
     return this.authService.login(await this.userService.findUser(Email));
   }
 
