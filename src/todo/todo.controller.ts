@@ -20,26 +20,30 @@ export class TodoController {
   @UseGuards(JwtAuthGuard)
   @Post()
   async postTask(@Body() todo: Todo): Promise<Todo> {
-    const test = await this.todoService.postTask(todo);
-    return test;
+    const task = await this.todoService.postTask(todo);
+    return task;
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   deleteTaskByID(@Param('id') id: string): Promise<Todo> {
     return this.todoService.deleteTaskByID(id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   getTaskByID(@Param('id') id: string): Promise<Todo> {
     return this.todoService.getTaskByID(id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   getAllTask(): Promise<Todo[]> {
     const allTask = this.todoService.getAllTask();
     return allTask;
   }
 
+  @UseGuards(JwtAuthGuard)
   @Put(':id')
   updateTask(@Param('id') id: string, @Body() todo: Todo): Promise<Todo> {
     return this.todoService.updateTask(id, todo.is_done);

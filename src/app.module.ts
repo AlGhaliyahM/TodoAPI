@@ -20,18 +20,10 @@ import { AuthModule } from './auth/auth/auth.module';
       port: 5432,
       entities: [Todo, User],
       database: 'todo',
-      // url: process.env.DATABASE_URL,
       autoLoadEntities: true,
       synchronize: false,
-      migrations: [
-        /*...*/
-      ],
-      migrationsTableName: 'custom_migration_table',
+      // migrationsTableName: 'custom_migration_table',
     }),
   ],
 })
 export class AppModule {}
-
-// The forRoot()
-// method supports all the configuration properties
-// exposed by the DataSource constructor from the TypeORM package.

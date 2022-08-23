@@ -13,8 +13,8 @@ export class AuthStrategy extends PassportStrategy(Strategy, 'jwt') {
     if (!user) {
       throw new UnauthorizedException('Incorrect credentials');
     }
+
     console.log(user);
-    //const accessToken = this.userService.generateAccessToken(user);
     return true;
   }
 }

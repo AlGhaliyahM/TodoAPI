@@ -23,7 +23,6 @@ export class UserController {
   @Post('signup')
   async signUp(@Body() user: User) {
     await this.userService.signUp(user);
-    console.log('signup is done');
     return this.login(user.email, user.password);
   }
 }

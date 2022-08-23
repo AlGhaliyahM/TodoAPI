@@ -17,6 +17,7 @@ export class AuthService {
     if (User && (await argon2.verify((await User).password, pass))) {
       return User;
     }
+    //Why returining null?
     return null;
   }
 
