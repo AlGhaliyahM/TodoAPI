@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Request, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards } from '@nestjs/common';
 import { User } from './user.entity';
 import { UserService } from './user.service';
 import { AuthGuard } from '@nestjs/passport';
@@ -13,16 +13,19 @@ export class UserController {
 
   @UseGuards(AuthGuard('jwt'))
   @Post('login')
-  async login(@Body() user: User) {
+  async login(
+    @Body('email') Email: string,
+    @Body('password') Password: string,
+  ) {
     //want to generate token here
-    //return this.userService.generateAccessToken(user);
-    return this.authService.login(user);
+    console.log('login in is happening');
+    return this.authService.login(await this.userService.findUser(Email));
   }
 
   @Post('signup')
   async signUp(@Body() user: User) {
     await this.userService.signUp(user);
     console.log('signup is done');
-    return this.login(user);
+    return this.login(user.email, user.password);
   }
 }

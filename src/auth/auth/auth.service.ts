@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { UserService } from '../../user/user.service';
 import * as argon2 from 'argon2';
 import { JwtService } from '@nestjs/jwt';
+import { User } from '../../user/user.entity';
+import 'dotenv/config';
 
 @Injectable()
 export class AuthService {
@@ -18,7 +20,7 @@ export class AuthService {
     return null;
   }
 
-  async login(user: any) {
+  async login(user: User) {
     const payload = { id: user.id, email: user.email, name: user.name };
     return {
       access_token: this.jwtService.sign(payload),
