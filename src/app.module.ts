@@ -5,7 +5,7 @@ import { Todo } from './todo/todo.entity';
 import { AppDataSource } from './data-source';
 import { User } from './user/user.entity';
 import { UserModule } from './user/user.module';
-import { AuthModule } from './auth/auth/auth.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [

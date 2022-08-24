@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { UserService } from '../../user/user.service';
+import { UserService } from '../user/user.service';
 import * as argon2 from 'argon2';
 import { JwtService } from '@nestjs/jwt';
-import { User } from '../../user/user.entity';
+import { User } from '../user/user.entity';
 import 'dotenv/config';
 
 @Injectable()
