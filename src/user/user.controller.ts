@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Get } from '@nestjs/common';
 import { User } from './user.entity';
 import { UserService } from './user.service';
 import { AuthGuard } from '@nestjs/passport';
@@ -24,5 +24,10 @@ export class UserController {
   async signUp(@Body() user: User) {
     await this.userService.signUp(user);
     return this.login(user.email, user.password);
+  }
+
+  @Get()
+  async findAll() {
+    return this.userService.findAll();
   }
 }

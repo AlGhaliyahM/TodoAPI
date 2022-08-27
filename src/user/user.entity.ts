@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import { Todo } from '../todo/todo.entity';
 
-@Entity()
+@Entity('user')
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
@@ -22,6 +22,6 @@ export class User {
   @Column({ unique: true })
   email: string;
 
-  @OneToMany(() => Todo, (todo) => todo.user)
+  @OneToMany((type) => Todo, (todo) => todo.user)
   todos: Todo[];
 }

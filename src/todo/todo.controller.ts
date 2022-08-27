@@ -7,10 +7,13 @@ import {
   Put,
   Param,
   UseGuards,
+  Req,
+  Headers,
 } from '@nestjs/common';
 import { TodoService } from './todo.service';
 import { Todo } from './todo.entity';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { User } from '../user/user.entity';
 
 @Controller('todo')
 export class TodoController {
@@ -18,8 +21,11 @@ export class TodoController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  async postTask(@Body() todo: Todo): Promise<Todo> {
-    const task = await this.todoService.postTask(todo);
+  async postTask(
+    @Headers('email') email: string,
+    @Body() todo: Todo,
+  ): Promise<Todo> {
+    const task = await this.todoService.postTask(email, todo);
     return task;
   }
 
@@ -37,8 +43,8 @@ export class TodoController {
 
   @UseGuards(JwtAuthGuard)
   @Get()
-  getAllTask(): Promise<Todo[]> {
-    const allTask = this.todoService.getAllTask();
+  getAllTask(@Headers('email') email: string): Promise<Todo[]> {
+    const allTask = this.todoService.getAllTask(email);
     return allTask;
   }
 
