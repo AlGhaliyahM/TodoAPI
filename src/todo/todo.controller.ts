@@ -31,14 +31,20 @@ export class TodoController {
 
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  deleteTaskByID(@Param('id') id: string): Promise<Todo> {
-    return this.todoService.deleteTaskByID(id);
+  deleteTaskByID(
+    @Headers('email') email: string,
+    @Param('id') id: string,
+  ): Promise<Todo> {
+    return this.todoService.deleteTaskByID(email, id);
   }
 
   @UseGuards(JwtAuthGuard)
   @Get(':id')
-  getTaskByID(@Param('id') id: string): Promise<Todo> {
-    return this.todoService.getTaskByID(id);
+  getTaskByID(
+    @Headers('email') email: string,
+    @Param('id') id: string,
+  ): Promise<Todo> {
+    return this.todoService.getTaskByID(email, id);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -50,7 +56,11 @@ export class TodoController {
 
   @UseGuards(JwtAuthGuard)
   @Put(':id')
-  updateTask(@Param('id') id: string, @Body() todo: Todo): Promise<Todo> {
-    return this.todoService.updateTask(id, todo.is_done);
+  updateTask(
+    @Headers('email') email: string,
+    @Param('id') id: string,
+    @Body() todo: Todo,
+  ): Promise<Todo> {
+    return this.todoService.updateTask(email, id, todo.is_done, todo.task);
   }
 }

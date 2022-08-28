@@ -1,4 +1,14 @@
-import { Injectable, Post, Get, Req, Res, Body, Delete } from '@nestjs/common';
+import {
+  Injectable,
+  Post,
+  Get,
+  Req,
+  Res,
+  Body,
+  Delete,
+  HttpStatus,
+  HttpException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, getRepository } from 'typeorm';
 import { Todo } from './todo.entity';
@@ -14,7 +24,6 @@ export class TodoService {
     private readonly usersRepository: Repository<User>,
   ) {}
 
-  //Linked with the user
   async postTask(userEmail, todo: Todo) {
     const newTask = await this.TodoRepository.save(todo);
 
@@ -30,14 +39,22 @@ export class TodoService {
     return newTask;
   }
 
-  async getTaskByID(ID) {
-    const task = await this.TodoRepository.findOneBy({
-      id: ID,
+  async getTaskByID(userEmail, ID) {
+    // const task = await this.TodoRepository.findOneBy({
+    //   id: ID,
+    // });
+    // return task;
+
+    let task = await this.TodoRepository.findOne({
+      where: { id: ID },
+      relations: ['user'],
     });
-    return task;
+
+    if (task.user.email == userEmail) {
+      return task;
+    }
   }
 
-  //Linked with the user
   async getAllTask(userEmail) {
     let user = await this.usersRepository.findOne({
       where: { email: userEmail },
@@ -48,17 +65,38 @@ export class TodoService {
     return await user.todos;
   }
 
-  async deleteTaskByID(ID) {
-    const taskToDelete = await this.TodoRepository.findOneBy({ id: ID });
+  async deleteTaskByID(userEmail, ID) {
+    // const taskToDelete = await this.TodoRepository.findOneBy({ id: ID });
+    // await this.TodoRepository.remove(taskToDelete);
+    // return taskToDelete;
 
-    await this.TodoRepository.remove(taskToDelete);
-    return taskToDelete;
+    let deletedTask = await this.TodoRepository.findOne({
+      where: { id: ID },
+      relations: ['user'],
+    });
+
+    //console.log(deletedTask);
+    //console.log(deletedTask.user.email == userEmail);
+
+    if (deletedTask.user.email == userEmail) {
+      this.TodoRepository.remove(deletedTask);
+      return deletedTask;
+    }
   }
 
-  async updateTask(ID, status) {
-    await this.TodoRepository.update(ID, { is_done: status });
-    const updatedTask = await this.TodoRepository.findOneBy({ id: ID });
+  async updateTask(userEmail, ID, status, task) {
+    // await this.TodoRepository.update(ID, { is_done: status });
+    // const updatedTask = await this.TodoRepository.findOneBy({ id: ID });
+    // return updatedTask;
 
-    return updatedTask;
+    let updatedTask = await this.TodoRepository.findOne({
+      where: { id: ID },
+      relations: ['user'],
+    });
+
+    if (updatedTask.user.email == userEmail) {
+      await this.TodoRepository.update(ID, { is_done: status, task: task });
+      return updatedTask;
+    }
   }
 }
