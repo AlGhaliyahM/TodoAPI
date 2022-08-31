@@ -14,6 +14,7 @@ import { TodoService } from './todo.service';
 import { Todo } from './todo.entity';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { User } from '../user/user.entity';
+import { GetUser } from '../auth/user.decorator';
 
 @Controller('todo')
 export class TodoController {
@@ -21,57 +22,48 @@ export class TodoController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  async postTask(
-    @Headers('email') email: string,
-    @Body() todo: Todo,
-  ): Promise<Todo> {
-    const task = await this.todoService.postTask(email, todo);
+  async postTask(@GetUser() user: any, @Body() todo: Todo): Promise<Todo> {
+    const task = await this.todoService.postTask(user, todo);
     return task;
   }
 
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  deleteTaskByID(
-    @Headers('email') email: string,
-    @Param('id') id: string,
-  ): Promise<Todo> {
-    return this.todoService.deleteTaskByID(email, id);
+  deleteTaskByID(@GetUser() user: any, @Param('id') id: string): Promise<Todo> {
+    return this.todoService.deleteTaskByID(user, id);
   }
 
   @UseGuards(JwtAuthGuard)
   @Get('countTask')
-  async countTasks(@Headers('email') email: string) {
-    return await this.todoService.countTasks(email);
+  async countTasks(@GetUser() user: any) {
+    return await this.todoService.countTasks(user);
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Get('countFinished')
-  async countFinishedTasks(@Headers('email') email: string) {
-    return this.todoService.countFinishedTasks(email);
-  }
+  // @UseGuards(JwtAuthGuard)
+  // @Get('countFinished')
+  // async countFinishedTasks(@Headers('email') email: string) {
+  //   return this.todoService.countFinishedTasks(email);
+  // }
   @UseGuards(JwtAuthGuard)
   @Get(':id')
-  getTaskByID(
-    @Headers('email') email: string,
-    @Param('id') id: string,
-  ): Promise<Todo> {
-    return this.todoService.getTaskByID(email, id);
+  getTaskByID(@GetUser() user: User, @Param('id') id: string): Promise<Todo> {
+    return this.todoService.getTaskByID(user, id);
   }
 
   @UseGuards(JwtAuthGuard)
   @Get()
-  getAllTask(@Headers('email') email: string): Promise<Todo[]> {
-    const allTask = this.todoService.getAllTask(email);
+  getAllTask(@GetUser() user: any): Promise<Todo[]> {
+    const allTask = this.todoService.getAllTask(user);
     return allTask;
   }
 
   @UseGuards(JwtAuthGuard)
   @Put(':id')
   updateTask(
-    @Headers('email') email: string,
+    @GetUser() user: any,
     @Param('id') id: string,
     @Body() todo: Todo,
   ): Promise<Todo> {
-    return this.todoService.updateTask(email, id, todo.is_done, todo.task);
+    return this.todoService.updateTask(user, id, todo.is_done, todo.task);
   }
 }

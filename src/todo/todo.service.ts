@@ -14,11 +14,11 @@ export class TodoService {
     private readonly usersRepository: Repository<User>,
   ) {}
 
-  async postTask(userEmail, todo: Todo) {
+  async postTask(User, todo: Todo) {
     const newTask = await this.TodoRepository.save(todo);
 
     const user = await this.usersRepository.findOne({
-      where: { email: userEmail },
+      where: { email: User.email },
       relations: ['todos'],
     });
     console.log(user);
@@ -29,7 +29,7 @@ export class TodoService {
     return newTask;
   }
 
-  async getTaskByID(userEmail, ID) {
+  async getTaskByID(user, ID) {
     const task = await this.TodoRepository.findOne({
       where: { id: ID },
       relations: ['user'],
@@ -39,7 +39,7 @@ export class TodoService {
         { status: HttpStatus.BAD_REQUEST, error: 'bad request' },
         HttpStatus.BAD_REQUEST,
       );
-    if (task.user.email == userEmail) {
+    if (task.user.email == user.email) {
       return task;
     } else
       throw new HttpException(
@@ -48,27 +48,29 @@ export class TodoService {
       );
   }
 
-  async getAllTask(userEmail) {
-    const user = await this.usersRepository.findOne({
-      where: { email: userEmail },
+  async getAllTask(user) {
+    const User = await this.usersRepository.findOne({
+      where: { email: user.email },
       relations: ['todos'],
     });
-    return await user.todos;
+    return await User.todos;
   }
 
-  async deleteTaskByID(userEmail, ID) {
-    const deletedTask = await this.TodoRepository.findOne({
+  async deleteTaskByID(user, ID) {
+    const task = await this.TodoRepository.findOne({
       where: { id: ID },
       relations: ['user'],
     });
-    if (deletedTask == null)
+    if (task == null)
       throw new HttpException(
         { status: HttpStatus.BAD_REQUEST, error: 'bad request' },
         HttpStatus.BAD_REQUEST,
       );
-    if (deletedTask.user.email == userEmail) {
-      this.TodoRepository.remove(deletedTask);
-      return deletedTask;
+    console.log(task);
+
+    if (task.user.email == user.email) {
+      this.TodoRepository.remove(task);
+      return task;
     } else
       throw new HttpException(
         { status: HttpStatus.FORBIDDEN, error: 'you do not have access' },
@@ -76,7 +78,7 @@ export class TodoService {
       );
   }
 
-  async updateTask(userEmail, ID, status, task) {
+  async updateTask(user, ID, status, task) {
     const updatedTask = await this.TodoRepository.findOne({
       where: { id: ID },
       relations: ['user'],
@@ -86,9 +88,12 @@ export class TodoService {
         { status: HttpStatus.BAD_REQUEST, error: 'bad request' },
         HttpStatus.BAD_REQUEST,
       );
-    if (updatedTask.user.email == userEmail) {
+    if (updatedTask.user.email == user.email) {
       await this.TodoRepository.update(ID, { is_done: status, task: task });
-      return updatedTask;
+      return await this.TodoRepository.findOne({
+        where: { id: ID },
+        relations: ['user'],
+      });
     } else
       throw new HttpException(
         { status: HttpStatus.FORBIDDEN, error: 'you do not have access' },
@@ -96,20 +101,21 @@ export class TodoService {
       );
   }
 
-  async countTasks(userEmail) {
-    const taskCount = await this.TodoRepository.count({
-      where: { user: { email: userEmail } },
-    });
-    return taskCount;
-    //let { sum } = await this.TodoRepository.createQueryBuilder().select("SUM(*)").from()
-    //const taskCount = await this.TodoRepository.query('SELECT SUM(*) FROM Todo WHERE email=')
+  async countTasks(user) {
+    // const taskCount = await this.TodoRepository.count({
+    //   where: { user: { email: userEmail } },
+    // });
+    const taskCount2 = await this.TodoRepository.query(
+      'SELECT COUNT(case when is_done=true then 1 else null end) as done, COUNT(case when is_done=false then 1 else null end) as in_progress FROM Todo WHERE ',
+    );
+    console.log(taskCount2);
+    return taskCount2;
   }
-  async countFinishedTasks(userEmail) {
-    const finishedTasks = await this.TodoRepository.count({
-      where: { user: { email: userEmail }, is_done: true },
-    });
-    return finishedTasks;
-    //let { sum } = await this.TodoRepository.createQueryBuilder().select("SUM(*)").from()
-    //const taskCount = await this.TodoRepository.query('SELECT SUM(*) FROM Todo WHERE email=')
-  }
+
+  // async countFinishedTasks(userEmail) {
+  //   const finishedTasks = await this.TodoRepository.count({
+  //     where: { user: { email: userEmail }, is_done: true },
+  //   });
+  //   return finishedTasks;
+  // }
 }
