@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import * as argon2 from 'argon2';
+import { runInThisContext } from 'vm';
 //import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
@@ -41,5 +42,13 @@ export class UserService {
 
   async findAll() {
     return this.usersRepository.find();
+  }
+
+  async deleteAccount(Email) {
+    const userAccount = await this.usersRepository.findOne({
+      where: { email: Email }     
+    });
+    this.usersRepository.remove(userAccount);
+    return {Message:"Your Account is deleted"}
   }
 }
