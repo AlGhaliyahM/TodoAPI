@@ -1,9 +1,9 @@
-import { Controller, Post, Body, UseGuards, Get } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Get, Delete ,Headers} from '@nestjs/common';
 import { User } from './user.entity';
 import { UserService } from './user.service';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from '../auth/auth.service';
-
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 @Controller('user')
 export class UserController {
   constructor(
@@ -29,5 +29,11 @@ export class UserController {
   @Get()
   async findAll() {
     return this.userService.findAll();
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete()
+  async deleteAccount(@Headers('email') email: string) {
+    return this.userService.deleteAccount(email);
   }
 }
