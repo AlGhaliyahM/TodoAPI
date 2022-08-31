@@ -33,7 +33,7 @@ export class UserService {
     });
 
     // for checking that the sign in works
-    console.log(userRegistry);
+    //console.log(userRegistry);
   }
 
   async findUser(Email: string): Promise<User | undefined> {

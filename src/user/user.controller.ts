@@ -4,6 +4,7 @@ import { UserService } from './user.service';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from '../auth/auth.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { GetUser } from '../auth/user.decorator';
 @Controller('user')
 export class UserController {
   constructor(
@@ -33,7 +34,7 @@ export class UserController {
 
   @UseGuards(JwtAuthGuard)
   @Delete()
-  async deleteAccount(@Headers('email') email: string) {
-    return this.userService.deleteAccount(email);
+  async deleteAccount(@GetUser() user: any) {
+    return this.userService.deleteAccount(user);
   }
 }
