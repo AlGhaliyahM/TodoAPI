@@ -108,14 +108,14 @@ export class TodoService {
       where: { user: { email: user.email }, is_done: true },
     });
 
-    // const pendingTask = await this.usersRepository.createQueryBuilder("user")
-    // .leftJoinAndSelect("user.todos", "todo")
-    // .where("user.email = :email", { email: user.email })
-    // .andWhere("todo.is_done = :is_done", { is_done: false })
-    // .getRawMany();
+    // const pendingTask = await this.usersRepository
+    //   .createQueryBuilder('user')
+    //   .leftJoinAndSelect('COUNT(user.todos)', 'todo')
+    //   .where('user.email = :email', { email: user.email })
+    //   .andWhere('todo.is_done = :is_done', { is_done: false })
+    //   .getRawMany();
 
     // console.log(pendingTask);
-    // return pendingTask;
 
     // const taskCount2 = await this.TodoRepository.query(
     //   'SELECT COUNT(case when is_done=true then 1 else null end) as done, COUNT(case when is_done=false then 1 else null end) as in_progress FROM Todo WHERE Todo.user.email == ?',
@@ -124,10 +124,11 @@ export class TodoService {
     // console.log(taskCount2);
     console.log(taskCount, finishedTasks);
 
-    return [
-      ['all tasks', taskCount],
-      ['finished Tasks', finishedTasks],
-    ];
+    return {
+      'all tasks': taskCount,
+      'finished tasks': finishedTasks,
+      'pending tasks': taskCount - finishedTasks,
+    };
   }
 
   // async countFinishedTasks(userEmail) {
