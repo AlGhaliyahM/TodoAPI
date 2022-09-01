@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Todo } from './todo.entity';
 import { User } from '../user/user.entity';
-import { json } from 'body-parser';
 //Business Logic
 
 @Injectable()
@@ -17,7 +16,6 @@ export class TodoService {
 
   async postTask(User, todo: Todo) {
     const newTask = await this.TodoRepository.save(todo);
-
     const user = await this.usersRepository.findOne({
       where: { email: User.email },
       relations: ['todos'],
@@ -109,6 +107,16 @@ export class TodoService {
     const finishedTasks = await this.TodoRepository.count({
       where: { user: { email: user.email }, is_done: true },
     });
+
+    // const pendingTask = await this.usersRepository.createQueryBuilder("user")
+    // .leftJoinAndSelect("user.todos", "todo")
+    // .where("user.email = :email", { email: user.email })
+    // .andWhere("todo.is_done = :is_done", { is_done: false })
+    // .getRawMany();
+
+    // console.log(pendingTask);
+    // return pendingTask;
+
     // const taskCount2 = await this.TodoRepository.query(
     //   'SELECT COUNT(case when is_done=true then 1 else null end) as done, COUNT(case when is_done=false then 1 else null end) as in_progress FROM Todo WHERE Todo.user.email == ?',
     //   [user.email],
