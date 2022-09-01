@@ -7,8 +7,6 @@ import {
   Put,
   Param,
   UseGuards,
-  Req,
-  Headers,
 } from '@nestjs/common';
 import { TodoService } from './todo.service';
 import { Todo } from './todo.entity';

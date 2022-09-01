@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Todo } from './todo.entity';
 import { User } from '../user/user.entity';
+import { json } from 'body-parser';
 //Business Logic
 
 @Injectable()
@@ -102,20 +103,29 @@ export class TodoService {
   }
 
   async countTasks(user) {
-    // const taskCount = await this.TodoRepository.count({
-    //   where: { user: { email: userEmail } },
-    // });
-    const taskCount2 = await this.TodoRepository.query(
-      'SELECT COUNT(case when is_done=true then 1 else null end) as done, COUNT(case when is_done=false then 1 else null end) as in_progress FROM Todo WHERE ',
-    );
-    console.log(taskCount2);
-    return taskCount2;
+    const taskCount = await this.TodoRepository.count({
+      where: { user: { email: user.email } },
+    });
+    const finishedTasks = await this.TodoRepository.count({
+      where: { user: { email: user.email }, is_done: true },
+    });
+    // const taskCount2 = await this.TodoRepository.query(
+    //   'SELECT COUNT(case when is_done=true then 1 else null end) as done, COUNT(case when is_done=false then 1 else null end) as in_progress FROM Todo WHERE Todo.user.email == ?',
+    //   [user.email],
+    // );
+    // console.log(taskCount2);
+    console.log(taskCount, finishedTasks);
+
+    return [
+      ['all tasks', taskCount],
+      ['finished Tasks', finishedTasks],
+    ];
   }
 
   // async countFinishedTasks(userEmail) {
-  //   const finishedTasks = await this.TodoRepository.count({
-  //     where: { user: { email: userEmail }, is_done: true },
-  //   });
+  // const finishedTasks = await this.TodoRepository.count({
+  //   where: { user: { email: userEmail }, is_done: true },
+  // });
   //   return finishedTasks;
   // }
 }
