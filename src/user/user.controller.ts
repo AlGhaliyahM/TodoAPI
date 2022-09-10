@@ -5,7 +5,9 @@ import {
   UseGuards,
   Get,
   Delete,
-  Headers,
+  Res,
+  Req,
+  UnauthorizedException
 } from '@nestjs/common';
 import { User } from './user.entity';
 import { UserService } from './user.service';
@@ -13,6 +15,8 @@ import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from '../auth/auth.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { GetUser } from '../auth/user.decorator';
+import {Response, Request} from 'express';
+
 @Controller('user')
 export class UserController {
   constructor(
@@ -24,20 +28,39 @@ export class UserController {
   @Post('login')
   async login(
     @Body('email') Email: string,
-    @Body('password') Password: string,
+    @Res({passthrough: true}) response: Response
   ) {
-    return this.authService.login(await this.userService.findUser(Email));
+    //Generate JWT 
+    const Token= await this.authService.login(await this.userService.findUser(Email));
+
+    response.cookie('Token', Token.jwt, {httpOnly: true});
+
+    return {
+      message: 'success'
+  };
+
   }
 
   @Post('signup')
   async signUp(@Body() user: User) {
-    await this.userService.signUp(user);
-    return this.login(user.email, user.password);
+    return await this.userService.signUp(user);
+   // return this.login(user.email);
   }
 
   @Get()
-  async findAll() {
-    return this.userService.findAll();
+  async user(@Req() request: Request){
+
+    try
+    {
+      const cookie = request.cookies['Token'];
+      const data = await this.authService.verifyAsync(cookie);
+
+      return data;
+    } 
+    catch (e) {
+      throw new UnauthorizedException();
+  }
+
   }
 
   @UseGuards(JwtAuthGuard)
@@ -45,4 +68,21 @@ export class UserController {
   async deleteAccount(@GetUser() user: any) {
     return this.userService.deleteAccount(user);
   }
+
+  @Post('logout')
+  async logout(@Res({passthrough: true}) response: Response) {
+      response.clearCookie('Token');
+
+      return {
+          message: 'Logged out successfully',
+      }
+  }
 }
+
+
+
+
+  // @Get()
+  // async findAll() {
+  //   return this.userService.findAll();
+  // }

@@ -32,16 +32,11 @@ export class UserService {
       email: user.email,
     });
 
-    // for checking that the sign in works
-    //console.log(userRegistry);
+    return userRegistry
   }
 
   async findUser(Email: string): Promise<User | undefined> {
     return this.usersRepository.findOneBy({ email: Email });
-  }
-
-  async findAll() {
-    return this.usersRepository.find();
   }
 
   async deleteAccount(Email) {
@@ -51,4 +46,10 @@ export class UserService {
     this.usersRepository.remove(userAccount);
     return { Message: 'Your Account is deleted' };
   }
+
+    async findAll() {
+    return this.usersRepository.find();
+  }
 }
+
+
