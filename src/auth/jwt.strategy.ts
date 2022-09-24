@@ -1,4 +1,4 @@
-import { ExtractJwt, JwtFromRequestFunction, Strategy } from 'passport-jwt';
+import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 import 'dotenv/config';
@@ -6,7 +6,6 @@ import { Request } from 'express';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jw') {
-  //static extractJWT: JwtFromRequestFunction;
   constructor() {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
