@@ -7,7 +7,7 @@ import {
   Delete,
   Res,
   Req,
-  UnauthorizedException
+  UnauthorizedException,
 } from '@nestjs/common';
 import { User } from './user.entity';
 import { UserService } from './user.service';
@@ -15,7 +15,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from '../auth/auth.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { GetUser } from '../auth/user.decorator';
-import {Response, Request} from 'express';
+import { Response, Request } from 'express';
 
 @Controller('user')
 export class UserController {
@@ -28,39 +28,34 @@ export class UserController {
   @Post('login')
   async login(
     @Body('email') Email: string,
-    @Res({passthrough: true}) response: Response
+    @Res({ passthrough: true }) response: Response,
   ) {
-    //Generate JWT 
-    const Token= await this.authService.login(await this.userService.findUser(Email));
+    //Generate JWT
+    const Token = await this.authService.login(
+      await this.userService.findUser(Email),
+    );
 
-    response.cookie('Token', Token.jwt, {httpOnly: true});
-
+    response.cookie('Token', Token.jwt, { httpOnly: true });
     return {
-      message: 'success'
-  };
-
+      message: 'success',
+    };
   }
 
   @Post('signup')
   async signUp(@Body() user: User) {
     return await this.userService.signUp(user);
-   // return this.login(user.email);
+    // return this.login(user.email);
   }
 
   @Get()
-  async user(@Req() request: Request){
-
-    try
-    {
+  async user(@Req() request: Request) {
+    try {
       const cookie = request.cookies['Token'];
       const data = await this.authService.verifyAsync(cookie);
-
-      return data;
-    } 
-    catch (e) {
+      return { data, cookie };
+    } catch (e) {
       throw new UnauthorizedException();
-  }
-
+    }
   }
 
   @UseGuards(JwtAuthGuard)
@@ -70,19 +65,16 @@ export class UserController {
   }
 
   @Post('logout')
-  async logout(@Res({passthrough: true}) response: Response) {
-      response.clearCookie('Token');
+  async logout(@Res({ passthrough: true }) response: Response) {
+    response.clearCookie('Token');
 
-      return {
-          message: 'Logged out successfully',
-      }
+    return {
+      message: 'Logged out successfully',
+    };
   }
 }
 
-
-
-
-  // @Get()
-  // async findAll() {
-  //   return this.userService.findAll();
-  // }
+// @Get()
+// async findAll() {
+//   return this.userService.findAll();
+// }

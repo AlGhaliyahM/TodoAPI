@@ -14,7 +14,7 @@ export class AuthService {
 
   async validateUser(email: string, pass: string) {
     const User = await this.userService.findUser(email);
-    if (User && (await argon2.verify((await User).password, pass))) {
+    if (User && (await argon2.verify(User.password, pass))) {
       return User;
     }
     //Why returining null?
@@ -22,15 +22,15 @@ export class AuthService {
   }
 
   async login(user: User) {
-    const payload = { id: user.id ,email: user.email, name: user.name };
-    const jwt = await this.jwtService.signAsync(payload)
+    const payload = { id: user.id, email: user.email, name: user.name };
+    const jwt = await this.jwtService.signAsync(payload);
 
     return {
-      jwt
+      jwt,
     };
   }
 
-  async verifyAsync(cookie){
+  async verifyAsync(cookie) {
     return this.jwtService.verifyAsync(cookie);
   }
 }

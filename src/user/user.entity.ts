@@ -1,11 +1,4 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  OneToMany,
-} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { Todo } from '../todo/todo.entity';
 
 @Entity('user')
@@ -22,6 +15,6 @@ export class User {
   @Column({ unique: true })
   email: string;
 
-  @OneToMany((type) => Todo, (todo) => todo.user)
+  @OneToMany(() => Todo, (todo) => todo.user)
   todos: Todo[];
 }
