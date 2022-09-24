@@ -32,11 +32,18 @@ export class UserService {
       email: user.email,
     });
 
-    return userRegistry
+    return userRegistry;
   }
 
   async findUser(Email: string): Promise<User | undefined> {
-    return this.usersRepository.findOneBy({ email: Email });
+    const user = await this.usersRepository.findOneBy({ email: Email });
+    if (user) {
+      return user;
+    }
+    throw new HttpException(
+      'User with this id does not exist',
+      HttpStatus.NOT_FOUND,
+    );
   }
 
   async deleteAccount(Email) {
@@ -47,9 +54,7 @@ export class UserService {
     return { Message: 'Your Account is deleted' };
   }
 
-    async findAll() {
+  async findAll() {
     return this.usersRepository.find();
   }
 }
-
-
