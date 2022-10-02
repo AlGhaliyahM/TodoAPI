@@ -37,6 +37,11 @@ export class TodoController {
     return await this.todoService.countTasks(user);
   }
 
+  // @UseGuards(JwtAuthGuard)
+  // @Get('countFinished')
+  // async countFinishedTasks(@Headers('email') email: string) {
+  //   return this.todoService.countFinishedTasks(email);
+  // }
   @UseGuards(JwtAuthGuard)
   @Get(':id')
   getTaskByID(@GetUser() user: User, @Param('id') id: string): Promise<Todo> {

@@ -35,8 +35,8 @@ export class UserService {
     return userRegistry;
   }
 
-  async findUser(Email: string): Promise<User | undefined> {
-    const user = await this.usersRepository.findOneBy({ email: Email });
+  async findUser(userEmail: string): Promise<User | undefined> {
+    const user = await this.usersRepository.findOneBy({ email: userEmail });
     if (user) {
       return user;
     }
@@ -46,9 +46,9 @@ export class UserService {
     );
   }
 
-  async deleteAccount(Email) {
+  async deleteAccount(userEmail) {
     const userAccount = await this.usersRepository.findOne({
-      where: { email: Email },
+      where: { email: userEmail },
     });
     this.usersRepository.remove(userAccount);
     return { Message: 'Your Account is deleted' };

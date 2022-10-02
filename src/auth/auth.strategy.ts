@@ -14,7 +14,7 @@ export class AuthStrategy extends PassportStrategy(Strategy, 'jwt') {
       throw new UnauthorizedException('Incorrect credentials');
     }
 
-    console.log(user);
+    // console.log(user);
     return true;
   }
 }
