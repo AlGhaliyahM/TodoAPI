@@ -24,15 +24,16 @@ export class UserController {
     private authService: AuthService,
   ) {}
 
+  //Password is missing 
   @UseGuards(AuthGuard('jwt'))
   @Post('login')
   async login(
-    @Body('email') Email: string,
+    @Body('email') email: string,
     @Res({ passthrough: true }) response: Response,
   ) {
     //Generate JWT
     const Token = await this.authService.login(
-      await this.userService.findUser(Email),
+      await this.userService.findUser(email),
     );
 
     response.cookie('Token', Token.jwt, { httpOnly: true });
@@ -63,7 +64,8 @@ export class UserController {
   async deleteAccount(@GetUser() user: any) {
     return this.userService.deleteAccount(user);
   }
-
+  
+  @UseGuards(JwtAuthGuard)
   @Post('logout')
   async logout(@Res({ passthrough: true }) response: Response) {
     response.clearCookie('Token');
