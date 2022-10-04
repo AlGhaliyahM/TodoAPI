@@ -9,13 +9,13 @@ import {
   Req,
   UnauthorizedException,
 } from '@nestjs/common';
-import { User } from './user.entity';
 import { UserService } from './user.service';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from '../auth/auth.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { GetUser } from '../auth/user.decorator';
 import { Response, Request } from 'express';
+import { userDTO } from './user.dto';
 
 @Controller('user')
 export class UserController {
@@ -27,26 +27,28 @@ export class UserController {
   @UseGuards(AuthGuard('jwt'))
   @Post('login')
   async login(
-    @Body('email') Email: string,
+    @Body() user: userDTO,
     @Res({ passthrough: true }) response: Response,
   ) {
     //Generate JWT
     const Token = await this.authService.login(
-      await this.userService.findUser(Email),
+      await this.userService.findUser(user.email),
     );
 
     response.cookie('Token', Token.jwt, { httpOnly: true });
     return {
-      message: 'success',
+      message: 'Login Success',
     };
   }
 
+  //sign up functionality
   @Post('signup')
-  async signUp(@Body() user: User) {
+  async signUp(@Body() user: userDTO) {
     return await this.userService.signUp(user);
     // return this.login(user.email);
   }
 
+  //validates that access token is set to inform the front end that user is logged in
   @Get()
   async user(@Req() request: Request) {
     try {
@@ -57,13 +59,13 @@ export class UserController {
       throw new UnauthorizedException();
     }
   }
-
+  //check responses
   @UseGuards(JwtAuthGuard)
   @Delete()
   async deleteAccount(@GetUser() user: any) {
     return this.userService.deleteAccount(user);
   }
-
+  // move logic to service
   @Post('logout')
   async logout(@Res({ passthrough: true }) response: Response) {
     response.clearCookie('Token');
@@ -73,8 +75,3 @@ export class UserController {
     };
   }
 }
-
-// @Get()
-// async findAll() {
-//   return this.userService.findAll();
-// }
