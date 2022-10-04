@@ -24,6 +24,7 @@ export class UserController {
     private authService: AuthService,
   ) {}
 
+  //Password is missing
   @UseGuards(AuthGuard('jwt'))
   @Post('login')
   async login(
@@ -65,7 +66,8 @@ export class UserController {
   async deleteAccount(@GetUser() user: any) {
     return this.userService.deleteAccount(user);
   }
-  // move logic to service
+
+  @UseGuards(JwtAuthGuard)
   @Post('logout')
   async logout(@Res({ passthrough: true }) response: Response) {
     response.clearCookie('Token');

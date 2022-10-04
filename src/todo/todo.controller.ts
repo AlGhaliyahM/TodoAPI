@@ -9,6 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { TodoService } from './todo.service';
+import { CreateTodoDto } from './todo.dto';
 import { Todo } from './todo.entity';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { User } from '../user/user.entity';
@@ -20,7 +21,7 @@ export class TodoController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  async postTask(@GetUser() user: any, @Body() todo: Todo): Promise<Todo> {
+  async postTask(@GetUser() user: any, @Body() todo: CreateTodoDto): Promise<Todo> {
     const task = await this.todoService.postTask(user, todo);
     return task;
   }

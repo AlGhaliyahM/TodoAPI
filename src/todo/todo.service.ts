@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Todo } from './todo.entity';
 import { User } from '../user/user.entity';
+import { CreateTodoDto } from './todo.dto';
 //Business Logic
 
 @Injectable()
@@ -15,17 +16,19 @@ export class TodoService {
   ) {}
 
   async postTask(User, todo: Todo) {
+    //response>> succesfull message 
     const newTask = await this.TodoRepository.save(todo);
     const user = await this.usersRepository.findOne({
       where: { email: User.email },
       relations: ['todos'],
     });
-    console.log(user);
+    //console.log(user);
     user.todos.push(todo);
 
     await this.usersRepository.save(user);
 
     return newTask;
+
   }
 
   async getTaskByID(user, ID) {
@@ -78,6 +81,7 @@ export class TodoService {
   }
 
   async updateTask(user, ID, status, task) {
+    //response>> updated date + isdone state 
     const updatedTask = await this.TodoRepository.findOne({
       where: { id: ID },
       relations: ['user'],
