@@ -4,16 +4,17 @@
     "colId": "history",
     "containerId": "",
     "name": "https://www.thunderclient.com/welcome",
-    "url": "http://localhost:3000/todo/268",
-    "method": "DELETE",
+    "url": "http://localhost:3000/user/signup",
+    "method": "POST",
     "sortNum": 0,
     "created": "2022-10-02T12:50:53.858Z",
-    "modified": "2022-10-02T16:52:39.885Z",
+    "modified": "2022-10-04T17:10:48.476Z",
     "headers": [],
     "params": [],
-    "auth": {
-      "type": "bearer",
-      "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJhQGdtYWlsLmNvbSIsIm5hbWUiOiJhIiwiaWF0IjoxNjY0NzI4NjMwLCJleHAiOjE2NjQ3MzA0MzB9.xXf7w902sIDBEeciy4Ba07En8RmVkcWzS2Qe_HkUeZw "
+    "body": {
+      "type": "json",
+      "raw": "{\n\n  \"email\": \"azozaf11aa@gmail.com\",\n  \"password\": \"azoz1234\"\n}",
+      "form": []
     },
     "tests": []
   },
@@ -26,12 +27,12 @@
     "method": "POST",
     "sortNum": 0,
     "created": "2022-10-02T12:51:08.899Z",
-    "modified": "2022-10-02T16:50:12.151Z",
+    "modified": "2022-10-04T17:10:35.394Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"email\":\"a@gmail.com\",\n  \"password\":\"a\"\n}",
+      "raw": "{ \n\n  \"email\":\"azoz@gmail.com\",\n  \"password\":\"azoz1234\"\n}",
       "form": []
     },
     "tests": []

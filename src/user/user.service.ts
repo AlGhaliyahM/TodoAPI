@@ -6,6 +6,7 @@ import { HttpException, HttpStatus } from '@nestjs/common';
 import * as argon2 from 'argon2';
 //import { runInThisContext } from 'vm';
 //import { JwtService } from '@nestjs/jwt';
+import { userDTO } from './user.dto';
 
 @Injectable()
 export class UserService {
@@ -14,7 +15,7 @@ export class UserService {
     private usersRepository: Repository<User>,
   ) {}
 
-  async signUp(user: User) {
+  async signUp(user: userDTO) {
     const hash = await argon2.hash(user.password);
 
     const userEmail = await this.usersRepository.findOneBy({
