@@ -15,19 +15,22 @@ export class TodoService {
     private readonly usersRepository: Repository<User>,
   ) {}
 
-  async postTask(User, todo: Todo) {
-    //response>> succesfull message 
-    const newTask = await this.TodoRepository.save(todo);
+   TODO:" Add input validation "
+  async postTask(User, todo: CreateTodoDto) {
+
+    let newTodo : Todo = new Todo();
+    newTodo.task= todo.task;
+   
+    await this.TodoRepository.save(newTodo);
     const user = await this.usersRepository.findOne({
       where: { email: User.email },
       relations: ['todos'],
     });
-    //console.log(user);
-    user.todos.push(todo);
+    user.todos.push(newTodo);
 
     await this.usersRepository.save(user);
 
-    return newTask;
+    return newTodo;
 
   }
 
@@ -68,7 +71,7 @@ export class TodoService {
         { status: HttpStatus.BAD_REQUEST, error: 'bad request' },
         HttpStatus.BAD_REQUEST,
       );
-    console.log(task);
+
 
     if (task.user.email == user.email) {
       this.TodoRepository.remove(task);
@@ -81,7 +84,9 @@ export class TodoService {
   }
 
   async updateTask(user, ID, status, task) {
-    //response>> updated date + isdone state 
+    //The status is not updating 
+    //Agreed to update only the status of is_done without the task content >> code need to be changed 
+
     const updatedTask = await this.TodoRepository.findOne({
       where: { id: ID },
       relations: ['user'],
@@ -112,20 +117,6 @@ export class TodoService {
       where: { user: { email: user.email }, is_done: true },
     });
 
-    // const pendingTask = await this.usersRepository
-    //   .createQueryBuilder('user')
-    //   .leftJoinAndSelect('COUNT(user.todos)', 'todo')
-    //   .where('user.email = :email', { email: user.email })
-    //   .andWhere('todo.is_done = :is_done', { is_done: false })
-    //   .getRawMany();
-
-    // console.log(pendingTask);
-
-    // const taskCount2 = await this.TodoRepository.query(
-    //   'SELECT COUNT(case when is_done=true then 1 else null end) as done, COUNT(case when is_done=false then 1 else null end) as in_progress FROM Todo WHERE Todo.user.email == ?',
-    //   [user.email],
-    // );
-    // console.log(taskCount2);
     console.log(taskCount, finishedTasks);
 
     return {
@@ -141,4 +132,20 @@ export class TodoService {
   // });
   //   return finishedTasks;
   // }
+
+
+    // const pendingTask = await this.usersRepository
+    //   .createQueryBuilder('user')
+    //   .leftJoinAndSelect('COUNT(user.todos)', 'todo')
+    //   .where('user.email = :email', { email: user.email })
+    //   .andWhere('todo.is_done = :is_done', { is_done: false })
+    //   .getRawMany();
+
+    // console.log(pendingTask);
+
+    // const taskCount2 = await this.TodoRepository.query(
+    //   'SELECT COUNT(case when is_done=true then 1 else null end) as done, COUNT(case when is_done=false then 1 else null end) as in_progress FROM Todo WHERE Todo.user.email == ?',
+    //   [user.email],
+    // );
+    // console.log(taskCount2);
 }

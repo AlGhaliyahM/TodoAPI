@@ -7,6 +7,7 @@ import {
   Put,
   Param,
   UseGuards,
+  ValidationPipe
 } from '@nestjs/common';
 import { TodoService } from './todo.service';
 import { CreateTodoDto } from './todo.dto';
@@ -21,9 +22,9 @@ export class TodoController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  async postTask(@GetUser() user: any, @Body() todo: CreateTodoDto): Promise<Todo> {
-    const task = await this.todoService.postTask(user, todo);
-    return task;
+  async postTask(@GetUser() user: any, @Body(ValidationPipe) todo: CreateTodoDto): Promise<CreateTodoDto> {
+    return await this.todoService.postTask(user, todo);
+  
   }
 
   @UseGuards(JwtAuthGuard)
@@ -56,6 +57,7 @@ export class TodoController {
     return allTask;
   }
 
+ //Agreed to update only the status of is_done without the task content >> code need to be changed 
   @UseGuards(JwtAuthGuard)
   @Put(':id')
   updateTask(
