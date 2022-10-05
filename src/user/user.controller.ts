@@ -15,7 +15,8 @@ import { AuthService } from '../auth/auth.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { GetUser } from '../auth/user.decorator';
 import { Response, Request } from 'express';
-import { userDTO } from './user.dto';
+import { userRegisterDTO } from './userRegister.dto';
+import { userLoginDTO } from './userLogin.dto';
 
 @Controller('user')
 export class UserController {
@@ -28,7 +29,7 @@ export class UserController {
   @UseGuards(AuthGuard('jwt'))
   @Post('login')
   async login(
-    @Body() user: userDTO,
+    @Body() user: userLoginDTO,
     @Res({ passthrough: true }) response: Response,
   ) {
     //Generate JWT
@@ -44,9 +45,8 @@ export class UserController {
 
   //sign up functionality
   @Post('signup')
-  async signUp(@Body() user: userDTO) {
+  async signUp(@Body() user: userRegisterDTO) {
     return await this.userService.signUp(user);
-    // return this.login(user.email);
   }
 
   //validates that access token is set to inform the front end that user is logged in
