@@ -17,6 +17,7 @@ import { GetUser } from '../auth/user.decorator';
 import { Response, Request } from 'express';
 import { userRegisterDTO } from './userRegister.dto';
 import { userLoginDTO } from './userLogin.dto';
+import { use } from 'passport';
 
 @Controller('user')
 export class UserController {
@@ -32,21 +33,21 @@ export class UserController {
     @Body() user: userLoginDTO,
     @Res({ passthrough: true }) response: Response,
   ) {
-    //Generate JWT
-    const Token = await this.authService.login(
-      await this.userService.findUser(user.email),
-    );
-
-    response.cookie('Token', Token.jwt, { httpOnly: true });
-    return {
-      message: 'Login Success',
-    };
+    return await this.authService.login(
+        await this.userService.findUser(user.email,),response
+      );
   }
 
   //sign up functionality
   @Post('signup')
-  async signUp(@Body() user: userRegisterDTO) {
-    return await this.userService.signUp(user);
+  async signUp(
+    @Body() user: userRegisterDTO,
+    @Res({ passthrough: true }) response: Response
+    ) {
+      await this.userService.signUp(user,response);  
+
+      //calling login function to generate token when sign up
+      return this.login(user,response);
   }
 
   //validates that access token is set to inform the front end that user is logged in
