@@ -24,8 +24,10 @@ export class UserController {
     private userService: UserService,
     private authService: AuthService,
   ) {}
-
+  // services available
+  // login, register, delete user, logout, validate access token
   //Password is missing
+  //should return a success message not return the user
   @UseGuards(AuthGuard('jwt'))
   @Post('login')
   async login(
@@ -44,9 +46,9 @@ export class UserController {
   }
 
   //sign up functionality
-  @Post('signup')
-  async signUp(@Body() user: userRegisterDTO) {
-    return await this.userService.signUp(user);
+  @Post('register')
+  async register(@Body() user: userRegisterDTO) {
+    return await this.userService.register(user);
   }
 
   //validates that access token is set to inform the front end that user is logged in
@@ -67,10 +69,11 @@ export class UserController {
     return this.userService.deleteAccount(user);
   }
 
-  @UseGuards(JwtAuthGuard)
+  //why do we need to validate the token @UseGuards(JwtAuthGuard)?
   @Post('logout')
   async logout(@Res({ passthrough: true }) response: Response) {
     response.clearCookie('Token');
+    console.log('Logged out successfully');
 
     return {
       message: 'Logged out successfully',

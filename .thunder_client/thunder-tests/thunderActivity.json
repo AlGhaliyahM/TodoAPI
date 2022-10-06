@@ -4,16 +4,16 @@
     "colId": "history",
     "containerId": "",
     "name": "registerUser",
-    "url": "http://localhost:3000/user/signup",
+    "url": "http://localhost:3000/user/register",
     "method": "POST",
     "sortNum": 0,
     "created": "2022-10-02T12:50:53.858Z",
-    "modified": "2022-10-05T16:40:26.037Z",
+    "modified": "2022-10-05T19:26:33.622Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"name\":\"testing1\",\n  \"email\": \"testing1@gmail.com\",\n  \"password\": \"azoz1234\"\n}",
+      "raw": "{\n  \"name\":\"testing6\",\n  \"email\": \"testing6@gmail.com\",\n  \"password\": \"azoz1234\"\n}",
       "form": []
     },
     "tests": []
@@ -27,12 +27,31 @@
     "method": "POST",
     "sortNum": 0,
     "created": "2022-10-02T12:51:08.899Z",
-    "modified": "2022-10-05T16:40:59.642Z",
+    "modified": "2022-10-05T20:55:43.184Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"email\": \"testing1@gmail.com\",\n  \"password\": \"azoz1234\",\n  \"bad\":\"dafa\"\n}",
+      "raw": "{\n  \"email\": \"testing1@gmail.com\",\n  \"password\": \"azoz1234\"\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "f6da590a-9732-4a01-9f02-7b1959141432",
+    "colId": "history",
+    "containerId": "",
+    "name": "logout",
+    "url": "http://localhost:3000/user/logout",
+    "method": "POST",
+    "sortNum": 0,
+    "created": "2022-10-02T12:51:08.899Z",
+    "modified": "2022-10-05T19:42:06.391Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"email\": \"testing1@gmail.com\",\n  \"password\": \"azoz1234\"\n}",
       "form": []
     },
     "tests": []
@@ -46,7 +65,7 @@
     "method": "POST",
     "sortNum": 0,
     "created": "2022-10-02T12:51:11.710Z",
-    "modified": "2022-10-04T21:23:59.740Z",
+    "modified": "2022-10-05T19:44:50.197Z",
     "headers": [],
     "params": [],
     "body": {

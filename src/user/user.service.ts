@@ -15,7 +15,7 @@ export class UserService {
     private usersRepository: Repository<User>,
   ) {}
 
-  async signUp(user: userRegisterDTO) {
+  async register(user: userRegisterDTO) {
     const hash = await argon2.hash(user.password);
 
     const userEmail = await this.usersRepository.findOneBy({
@@ -27,13 +27,15 @@ export class UserService {
         HttpStatus.BAD_REQUEST,
       );
 
-    const userRegistry = await this.usersRepository.save({
+    await this.usersRepository.save({
       name: user.name,
       password: hash,
       email: user.email,
     });
 
-    return userRegistry;
+    return {
+      message: 'registration successful',
+    };
   }
 
   async findUser(userEmail: string): Promise<User | undefined> {
@@ -58,4 +60,5 @@ export class UserService {
   async findAll() {
     return this.usersRepository.find();
   }
+  //async logout(response: Response) {}
 }
