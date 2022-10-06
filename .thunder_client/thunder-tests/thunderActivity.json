@@ -8,12 +8,12 @@
     "method": "POST",
     "sortNum": 0,
     "created": "2022-10-02T12:50:53.858Z",
-    "modified": "2022-10-05T19:26:33.622Z",
+    "modified": "2022-10-06T12:24:39.811Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"name\":\"testing6\",\n  \"email\": \"testing6@gmail.com\",\n  \"password\": \"azoz1234\"\n}",
+      "raw": "{\n  \"name\":\"testing8\",\n  \"email\": \"testing8@gmail.com\",\n  \"password\": \"azoz1234\"\n}",
       "form": []
     },
     "tests": []
@@ -27,12 +27,12 @@
     "method": "POST",
     "sortNum": 0,
     "created": "2022-10-02T12:51:08.899Z",
-    "modified": "2022-10-05T20:55:43.184Z",
+    "modified": "2022-10-06T12:25:23.639Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"email\": \"testing1@gmail.com\",\n  \"password\": \"azoz1234\"\n}",
+      "raw": "{\n  \"name\":\"testing8\",\n  \"email\": \"testing8@gmail.com\",\n  \"password\": \"azoz1234\"\n}",
       "form": []
     },
     "tests": []

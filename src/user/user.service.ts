@@ -7,6 +7,7 @@ import * as argon2 from 'argon2';
 //import { runInThisContext } from 'vm';
 //import { JwtService } from '@nestjs/jwt';
 import { userRegisterDTO } from './userRegister.dto';
+import { Response, Request } from 'express';
 
 @Injectable()
 export class UserService {

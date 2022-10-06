@@ -63,8 +63,8 @@ export class TodoController {
   updateTask(
     @GetUser() user: any,
     @Param('id') id: string,
-    @Body() todo: Todo,
-  ): Promise<Todo> {
-    return this.todoService.updateTask(user, id, todo.is_done, todo.task);
+    @Body() is_done: boolean,
+  ) {
+    return this.todoService.updateTask(user, id, is_done);
   }
 }

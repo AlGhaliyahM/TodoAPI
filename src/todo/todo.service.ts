@@ -83,10 +83,11 @@ export class TodoService {
       );
   }
 
-  async updateTask(user, ID, status, task) {
+  async updateTask(user, ID, status) {
     //The status is not updating 
     //Agreed to update only the status of is_done without the task content >> code need to be changed 
 
+    console.log(status)
     const updatedTask = await this.TodoRepository.findOne({
       where: { id: ID },
       relations: ['user'],
@@ -97,7 +98,7 @@ export class TodoService {
         HttpStatus.BAD_REQUEST,
       );
     if (updatedTask.user.email == user.email) {
-      await this.TodoRepository.update(ID, { is_done: status, task: task });
+      await this.TodoRepository.update(ID, { is_done:status.is_done });
       return await this.TodoRepository.findOne({
         where: { id: ID },
         relations: ['user'],

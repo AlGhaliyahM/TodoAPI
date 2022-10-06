@@ -34,15 +34,11 @@ export class UserController {
     @Body() user: userLoginDTO,
     @Res({ passthrough: true }) response: Response,
   ) {
-    //Generate JWT
-    const Token = await this.authService.login(
+    const { message } = await this.authService.login(
       await this.userService.findUser(user.email),
+      response,
     );
-
-    response.cookie('Token', Token.jwt, { httpOnly: true });
-    return {
-      message: 'Login Success',
-    };
+    return { message };
   }
 
   //sign up functionality
