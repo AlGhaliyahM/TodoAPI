@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import * as argon2 from 'argon2';
 import { JwtService } from '@nestjs/jwt';
-import { Response, Request } from 'express';
+import { Response } from 'express';
 import { User } from '../user/user.entity';
 import 'dotenv/config';
 
@@ -27,10 +27,6 @@ export class AuthService {
     const jwt = await this.jwtService.signAsync(payload);
 
     response.cookie('Token', jwt, { httpOnly: true });
-
-    // return {
-    //   message: 'Login Success',
-    // };
 
     return {
       jwt,
