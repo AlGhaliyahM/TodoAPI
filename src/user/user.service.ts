@@ -4,10 +4,9 @@ import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import * as argon2 from 'argon2';
-//import { runInThisContext } from 'vm';
 //import { JwtService } from '@nestjs/jwt';
 import { userRegisterDTO } from './userRegister.dto';
-import { Response, Request } from 'express';
+//import { Response, Request } from 'express';
 
 @Injectable()
 export class UserService {
@@ -24,8 +23,8 @@ export class UserService {
     });
     if (userEmail != null)
       throw new HttpException(
-        { status: HttpStatus.BAD_REQUEST, error: 'email already in use' },
-        HttpStatus.BAD_REQUEST,
+        { status: HttpStatus.CONFLICT, error: 'email already in use' },
+        HttpStatus.CONFLICT,
       );
 
     await this.usersRepository.save({

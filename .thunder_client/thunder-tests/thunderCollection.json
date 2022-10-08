@@ -1,1 +1,16 @@
-[]
+[
+  {
+    "_id": "a6de25ee-c343-4ce7-8ce0-e622ea10c0ca",
+    "colName": "todo Requests",
+    "created": "2022-10-07T22:28:09.858Z",
+    "sortNum": 10000,
+    "folders": []
+  },
+  {
+    "_id": "e818df8d-6d79-43c9-a208-359707a86015",
+    "colName": "user requests",
+    "created": "2022-10-07T23:59:59.001Z",
+    "sortNum": 20000,
+    "folders": []
+  }
+]

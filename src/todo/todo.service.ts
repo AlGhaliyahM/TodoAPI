@@ -15,12 +15,11 @@ export class TodoService {
     private readonly usersRepository: Repository<User>,
   ) {}
 
-   TODO:" Add input validation "
+  TODO: ' Add input validation ';
   async postTask(User, todo: CreateTodoDto) {
+    const newTodo: Todo = new Todo();
+    newTodo.task = todo.task;
 
-    let newTodo : Todo = new Todo();
-    newTodo.task= todo.task;
-   
     await this.TodoRepository.save(newTodo);
     const user = await this.usersRepository.findOne({
       where: { email: User.email },
@@ -31,7 +30,6 @@ export class TodoService {
     await this.usersRepository.save(user);
 
     return newTodo;
-
   }
 
   async getTaskByID(user, ID) {
@@ -45,6 +43,8 @@ export class TodoService {
         HttpStatus.BAD_REQUEST,
       );
     if (task.user.email == user.email) {
+      //removed the user attribute
+      delete task.user;
       return task;
     } else
       throw new HttpException(
@@ -72,7 +72,6 @@ export class TodoService {
         HttpStatus.BAD_REQUEST,
       );
 
-
     if (task.user.email == user.email) {
       this.TodoRepository.remove(task);
       return task;
@@ -84,10 +83,10 @@ export class TodoService {
   }
 
   async updateTask(user, ID, status) {
-    //The status is not updating 
-    //Agreed to update only the status of is_done without the task content >> code need to be changed 
+    //The status is not updating
+    //Agreed to update only the status of is_done without the task content >> code need to be changed
 
-    console.log(status)
+    console.log(status);
     const updatedTask = await this.TodoRepository.findOne({
       where: { id: ID },
       relations: ['user'],
@@ -98,7 +97,7 @@ export class TodoService {
         HttpStatus.BAD_REQUEST,
       );
     if (updatedTask.user.email == user.email) {
-      await this.TodoRepository.update(ID, { is_done:status.is_done });
+      await this.TodoRepository.update(ID, { is_done: status.is_done });
       return await this.TodoRepository.findOne({
         where: { id: ID },
         relations: ['user'],
@@ -134,19 +133,18 @@ export class TodoService {
   //   return finishedTasks;
   // }
 
+  // const pendingTask = await this.usersRepository
+  //   .createQueryBuilder('user')
+  //   .leftJoinAndSelect('COUNT(user.todos)', 'todo')
+  //   .where('user.email = :email', { email: user.email })
+  //   .andWhere('todo.is_done = :is_done', { is_done: false })
+  //   .getRawMany();
 
-    // const pendingTask = await this.usersRepository
-    //   .createQueryBuilder('user')
-    //   .leftJoinAndSelect('COUNT(user.todos)', 'todo')
-    //   .where('user.email = :email', { email: user.email })
-    //   .andWhere('todo.is_done = :is_done', { is_done: false })
-    //   .getRawMany();
+  // console.log(pendingTask);
 
-    // console.log(pendingTask);
-
-    // const taskCount2 = await this.TodoRepository.query(
-    //   'SELECT COUNT(case when is_done=true then 1 else null end) as done, COUNT(case when is_done=false then 1 else null end) as in_progress FROM Todo WHERE Todo.user.email == ?',
-    //   [user.email],
-    // );
-    // console.log(taskCount2);
+  // const taskCount2 = await this.TodoRepository.query(
+  //   'SELECT COUNT(case when is_done=true then 1 else null end) as done, COUNT(case when is_done=false then 1 else null end) as in_progress FROM Todo WHERE Todo.user.email == ?',
+  //   [user.email],
+  // );
+  // console.log(taskCount2);
 }
