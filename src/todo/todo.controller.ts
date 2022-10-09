@@ -62,11 +62,7 @@ export class TodoController {
   //Agreed to update only the status of is_done without the task content >> code need to be changed
   @UseGuards(JwtAuthGuard)
   @Put(':id')
-  updateTask(
-    @GetUser() user: any,
-    @Param('id') id: string,
-    @Body() is_done: boolean,
-  ) {
-    return this.todoService.updateTask(user, id, is_done);
+  updateTask(@GetUser() user: any, @Param('id') id: string) {
+    return this.todoService.updateTask(user, id);
   }
 }

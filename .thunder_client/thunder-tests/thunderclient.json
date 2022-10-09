@@ -4,18 +4,13 @@
     "colId": "a6de25ee-c343-4ce7-8ce0-e622ea10c0ca",
     "containerId": "",
     "name": "update task",
-    "url": "http://localhost:3000/todo/17",
+    "url": "http://localhost:3000/todo/32",
     "method": "PUT",
     "sortNum": 10000,
     "created": "2022-10-07T22:28:16.849Z",
-    "modified": "2022-10-07T23:58:39.301Z",
+    "modified": "2022-10-09T20:03:51.934Z",
     "headers": [],
     "params": [],
-    "body": {
-      "type": "json",
-      "raw": "{\n  \"is_done\":true\n}",
-      "form": []
-    },
     "tests": []
   },
   {
@@ -69,12 +64,12 @@
     "_id": "2b8d2547-32b1-40e0-8c71-77c0aeae9339",
     "colId": "a6de25ee-c343-4ce7-8ce0-e622ea10c0ca",
     "containerId": "",
-    "name": "update task",
-    "url": "http://localhost:3000/todo/19",
+    "name": "delete task",
+    "url": "http://localhost:3000/todo/28",
     "method": "DELETE",
     "sortNum": 11250,
     "created": "2022-10-07T22:29:55.661Z",
-    "modified": "2022-10-07T22:29:55.661Z",
+    "modified": "2022-10-09T20:02:53.522Z",
     "headers": [],
     "params": [],
     "tests": []
@@ -102,7 +97,7 @@
     "method": "POST",
     "sortNum": 10000,
     "created": "2022-10-08T00:00:09.226Z",
-    "modified": "2022-10-08T00:00:09.226Z",
+    "modified": "2022-10-09T18:39:24.005Z",
     "headers": [],
     "params": [],
     "body": {
