@@ -117,12 +117,10 @@ export class TodoService {
       where: { user: { email: user.email }, is_done: true },
     });
 
-    console.log(taskCount, finishedTasks);
-
     return {
-      'all tasks': taskCount,
-      'finished tasks': finishedTasks,
-      'pending tasks': taskCount - finishedTasks,
+      allTasks: taskCount,
+      completedTasks: finishedTasks,
+      pendingTasks: taskCount - finishedTasks,
     };
   }
 
