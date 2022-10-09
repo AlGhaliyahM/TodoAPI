@@ -43,8 +43,10 @@ export class UserController {
 
   //sign up functionality
   @Post('register')
-  async register(@Body() user: userRegisterDTO) {
-    return await this.userService.register(user);
+  async register(@Body() user: userRegisterDTO, @Res({ passthrough: true }) response: Response) {
+
+     await this.userService.register(user, response);
+     return this.login(user,response);
   }
 
   //validates that access token is set to inform the front end that user is logged in
