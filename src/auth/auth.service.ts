@@ -33,8 +33,7 @@ export class AuthService {
     // };
 
     return {
-      jwt,
-      message: 'login sucessfull',
+      message: 'login successfully',
     };
   }
 
