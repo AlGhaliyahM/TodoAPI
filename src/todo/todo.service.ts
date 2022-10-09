@@ -86,7 +86,7 @@ export class TodoService {
     //The status is not updating
     //Agreed to update only the status of is_done without the task content >> code need to be changed
 
-    console.log(status);
+    // console.log(status);
     const updatedTask = await this.TodoRepository.findOne({
       where: { id: ID },
       relations: ['user'],
