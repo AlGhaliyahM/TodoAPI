@@ -8,6 +8,7 @@ import {
   Res,
   Req,
   UnauthorizedException,
+  HttpStatus,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { AuthGuard } from '@nestjs/passport';
@@ -43,21 +44,22 @@ export class UserController {
 
   //sign up functionality
   @Post('register')
-  async register(@Body() user: userRegisterDTO, @Res({ passthrough: true }) response: Response) {
-
-     await this.userService.register(user, response);
-     return this.login(user,response);
+  async register(
+    @Body() user: userRegisterDTO,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    await this.userService.register(user, response);
+    return this.login(user, response);
   }
 
   //validates that access token is set to inform the front end that user is logged in
   @Get()
   async user(@Req() request: Request) {
     try {
-      const cookie = request.cookies['Token'];
-      const data = await this.authService.verifyAsync(cookie);
-      return { data, cookie };
+      await this.authService.verifyAsync(request.cookies['Token']);
+      return true;
     } catch (e) {
-      throw new UnauthorizedException();
+      return false;
     }
   }
   //check responses
