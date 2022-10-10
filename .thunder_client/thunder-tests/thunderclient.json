@@ -144,5 +144,19 @@
       "form": []
     },
     "tests": []
+  },
+  {
+    "_id": "0552b28b-936b-4a17-a200-91dcc63766d3",
+    "colId": "e818df8d-6d79-43c9-a208-359707a86015",
+    "containerId": "",
+    "name": "isAuth",
+    "url": "http://localhost:3000/user",
+    "method": "GET",
+    "sortNum": 40000,
+    "created": "2022-10-10T09:01:39.467Z",
+    "modified": "2022-10-10T09:02:08.551Z",
+    "headers": [],
+    "params": [],
+    "tests": []
   }
 ]

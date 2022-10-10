@@ -124,26 +124,4 @@ export class TodoService {
       pendingTasks: taskCount - finishedTasks,
     };
   }
-
-  // async countFinishedTasks(userEmail) {
-  // const finishedTasks = await this.TodoRepository.count({
-  //   where: { user: { email: userEmail }, is_done: true },
-  // });
-  //   return finishedTasks;
-  // }
-
-  // const pendingTask = await this.usersRepository
-  //   .createQueryBuilder('user')
-  //   .leftJoinAndSelect('COUNT(user.todos)', 'todo')
-  //   .where('user.email = :email', { email: user.email })
-  //   .andWhere('todo.is_done = :is_done', { is_done: false })
-  //   .getRawMany();
-
-  // console.log(pendingTask);
-
-  // const taskCount2 = await this.TodoRepository.query(
-  //   'SELECT COUNT(case when is_done=true then 1 else null end) as done, COUNT(case when is_done=false then 1 else null end) as in_progress FROM Todo WHERE Todo.user.email == ?',
-  //   [user.email],
-  // );
-  // console.log(taskCount2);
 }
