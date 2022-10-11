@@ -52,7 +52,7 @@ export class UserController {
     return this.login(user, response);
   }
 
-  //validates that access token is set to inform the front end that user is logged in
+ 
   @Get()
   async user(@Req() request: Request) {
     try {
