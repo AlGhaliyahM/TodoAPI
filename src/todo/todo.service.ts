@@ -25,7 +25,8 @@ export class TodoService {
       where: { email: User.email },
       relations: ['todos'],
     });
-    user.todos.push(newTodo);
+    user.todos.unshift(newTodo);
+    // user.todos.push(newTodo);
 
     await this.usersRepository.save(user);
 
@@ -57,6 +58,9 @@ export class TodoService {
     const User = await this.usersRepository.findOne({
       where: { email: user.email },
       relations: ['todos'],
+    });
+    User.todos.sort((a: Todo, b: Todo) => {
+      if (a.is_done) return a.updatedAt.valueOf() - b.updatedAt.valueOf();
     });
     return await User.todos;
   }

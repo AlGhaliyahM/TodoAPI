@@ -52,7 +52,6 @@ export class UserController {
     return this.login(user, response);
   }
 
- 
   @Get()
   async user(@Req() request: Request) {
     try {
