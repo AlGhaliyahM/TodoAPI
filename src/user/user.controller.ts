@@ -7,8 +7,8 @@ import {
   Delete,
   Res,
   Req,
-  UnauthorizedException,
   HttpStatus,
+  HttpException,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { AuthGuard } from '@nestjs/passport';
@@ -18,6 +18,7 @@ import { GetUser } from '../auth/user.decorator';
 import { Response, Request } from 'express';
 import { userRegisterDTO } from './userRegister.dto';
 import { userLoginDTO } from './userLogin.dto';
+import { User } from './user.entity';
 
 @Controller('user')
 export class UserController {
@@ -51,14 +52,21 @@ export class UserController {
     await this.userService.register(user, response);
     return this.login(user, response);
   }
-
+  @UseGuards(JwtAuthGuard)
   @Get()
-  async user(@Req() request: Request) {
+  async user(@GetUser() user: User, @Req() request: Request) {
     try {
       await this.authService.verifyAsync(request.cookies['Token']);
-      return true;
+      const username = (await this.userService.findUser(user.email)).name;
+      return {
+        authenticated: true,
+        name: username,
+      };
     } catch (e) {
-      return false;
+      throw new HttpException(
+        { status: HttpStatus.NOT_FOUND },
+        HttpStatus.NOT_FOUND,
+      );
     }
   }
   //check responses

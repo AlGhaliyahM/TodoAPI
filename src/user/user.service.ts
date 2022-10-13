@@ -16,7 +16,7 @@ export class UserService {
     private usersRepository: Repository<User>,
   ) {}
 
-  async register(user: userRegisterDTO, response:Response) {
+  async register(user: userRegisterDTO, response: Response) {
     const hash = await argon2.hash(user.password);
 
     const userEmail = await this.usersRepository.findOneBy({
