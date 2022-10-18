@@ -33,7 +33,7 @@ export class AuthService {
     // };
 
     return {
-      message: 'login successfully',
+      message: 'Logged in successfully.',
     };
   }
 

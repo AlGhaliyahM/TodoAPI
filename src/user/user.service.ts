@@ -24,7 +24,7 @@ export class UserService {
     });
     if (userEmail != null)
       throw new HttpException(
-        { status: HttpStatus.CONFLICT, error: 'email already in use' },
+        { status: HttpStatus.CONFLICT, error: 'Email is already in use.' },
         HttpStatus.CONFLICT,
       );
 
@@ -35,7 +35,7 @@ export class UserService {
     });
 
     return {
-      message: 'registration successful',
+      message: 'Registered successfully.',
     };
   }
 
@@ -45,21 +45,26 @@ export class UserService {
       return user;
     }
     throw new HttpException(
-      'User with this id does not exist',
+      'Emain not found. Please enter correct email.',
       HttpStatus.NOT_FOUND,
     );
   }
 
-  async deleteAccount(userEmail) {
-    const userAccount = await this.usersRepository.findOne({
-      where: { email: userEmail },
-    });
-    this.usersRepository.remove(userAccount);
-    return { Message: 'Your Account is deleted' };
-  }
+  // async deleteAccount(userEmail) {
+  //   const userAccount = await this.usersRepository.findOne({
+  //     where: { email: userEmail },
+  //   });
+  //   this.usersRepository.remove(userAccount);
+  //   return { message: 'Your Account is deleted' };
+  // }
 
   async findAll() {
     return this.usersRepository.find();
   }
-  //async logout(response: Response) {}
+  async logout(response: Response) {
+    response.clearCookie('Token');
+    return {
+      message: 'Your Logged out successfully.',
+    };
+  }
 }

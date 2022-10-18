@@ -11,7 +11,7 @@ export class AuthStrategy extends PassportStrategy(Strategy, 'jwt') {
   async validate(email: string, password: string): Promise<any> {
     const user = await this.authService.validateUser(email, password);
     if (!user) {
-      throw new UnauthorizedException('Incorrect credentials');
+      throw new UnauthorizedException('Invalid credientals. Please try again. ');
     }
 
     // console.log(user);
