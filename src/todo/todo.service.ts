@@ -60,9 +60,15 @@ export class TodoService {
       relations: ['todos'],
     });
     User.todos.sort((a: Todo, b: Todo) => {
-      if (a.is_done) return a.updatedAt.valueOf() - b.updatedAt.valueOf();
+      if (a.is_done && b.is_done)
+        return b.updatedAt.valueOf() - a.updatedAt.valueOf();
     });
-    return await User.todos;
+    User.todos.sort((a: Todo, b: Todo) => {
+      if (!a.is_done && !b.is_done)
+        return b.created_at.valueOf() - a.created_at.valueOf();
+    });
+
+    return User.todos;
   }
 
   async deleteTaskByID(user, ID) {

@@ -41,10 +41,20 @@
     "method": "GET",
     "sortNum": 15000,
     "created": "2022-10-07T22:28:54.771Z",
-    "modified": "2022-10-07T22:28:54.771Z",
+    "modified": "2022-10-19T10:55:06.714Z",
     "headers": [],
     "params": [],
-    "tests": []
+    "tests": [],
+    "preReq": {
+      "runRequests": [
+        {
+          "reqId": "d35693c6-4bba-43d5-92b5-bb7a67746ab1",
+          "colId": "e818df8d-6d79-43c9-a208-359707a86015",
+          "triggerCondition": "run-always",
+          "triggerValue": ""
+        }
+      ]
+    }
   },
   {
     "_id": "50d23969-28af-459f-b84d-a393bec5cbb4",
@@ -97,7 +107,7 @@
     "method": "POST",
     "sortNum": 10000,
     "created": "2022-10-08T00:00:09.226Z",
-    "modified": "2022-10-13T13:28:28.088Z",
+    "modified": "2022-10-19T10:54:52.693Z",
     "headers": [],
     "params": [],
     "body": {
