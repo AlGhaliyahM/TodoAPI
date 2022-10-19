@@ -69,21 +69,16 @@ export class UserController {
       );
     }
   }
-  //check responses
-  @UseGuards(JwtAuthGuard)
-  @Delete()
-  async deleteAccount(@GetUser() user: any) {
-    return this.userService.deleteAccount(user);
-  }
+  
+  // @UseGuards(JwtAuthGuard)
+  // @Delete()
+  // async deleteAccount(@GetUser() user: any) {
+  //   return this.userService.deleteAccount(user);
+  // }
 
-  //why do we need to validate the token @UseGuards(JwtAuthGuard)?
+  
   @Post('logout')
-  async logout(@Res({ passthrough: true }) response: Response) {
-    response.clearCookie('Token');
-    console.log('Logged out successfully');
-
-    return {
-      message: 'Logged out successfully',
-    };
+  async logout(@Res({ passthrough: true }) response: Response) {   
+    return this.userService.logout(response);
   }
 }
