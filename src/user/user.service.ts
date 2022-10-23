@@ -45,7 +45,7 @@ export class UserService {
       return user;
     }
     throw new HttpException(
-      'Emain not found. Please enter correct email.',
+      'Email not found. Please enter correct email.',
       HttpStatus.NOT_FOUND,
     );
   }
