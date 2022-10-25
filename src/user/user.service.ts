@@ -24,7 +24,7 @@ export class UserService {
     });
     if (userEmail != null)
       throw new HttpException(
-        { status: HttpStatus.CONFLICT, error: 'Email is already in use.' },
+        { status: HttpStatus.CONFLICT, message: ['Email is already in use.'] },
         HttpStatus.CONFLICT,
       );
 
@@ -35,7 +35,7 @@ export class UserService {
     });
 
     return {
-      message: 'Registered successfully.',
+      message: ['Registered successfully.'],
     };
   }
 
@@ -45,7 +45,7 @@ export class UserService {
       return user;
     }
     throw new HttpException(
-      'Emain not found. Please enter correct email.',
+      'Invalid credientals. Please try again.',
       HttpStatus.NOT_FOUND,
     );
   }

@@ -4,7 +4,6 @@ import {
   Body,
   UseGuards,
   Get,
-  Delete,
   Res,
   Req,
   HttpStatus,
@@ -69,16 +68,15 @@ export class UserController {
       );
     }
   }
-  
+
   // @UseGuards(JwtAuthGuard)
   // @Delete()
   // async deleteAccount(@GetUser() user: any) {
   //   return this.userService.deleteAccount(user);
   // }
 
-  
   @Post('logout')
-  async logout(@Res({ passthrough: true }) response: Response) {   
+  async logout(@Res({ passthrough: true }) response: Response) {
     return this.userService.logout(response);
   }
 }
